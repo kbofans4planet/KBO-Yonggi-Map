@@ -68,18 +68,17 @@
             <option value="창원NC파크">창원NC파크</option>
           </select>
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <input type="text" id="user-name" placeholder="이름 (선택)" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-          <input type="tel" id="user-phone" placeholder="전화번호 (선택)" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-        </div>
-        <!-- 개인정보 동의 문구 -->
         <div class="mt-4 px-2 text-center">
-            <p class="text-[10px] text-slate-500 leading-tight">
+            <p class="text-[11px] text-slate-500 leading-tight">
                 설문/이벤트 참여를 원할 경우 이름과 전화번호를 입력해주세요.<br>
                 (정보 입력 = 개인정보 수집 및 이용 동의)
             </p>
         </div>
-        <button type="submit" id="btn-submit-welcome" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-black rounded-xl py-4 text-base transition-all shadow-lg mt-2">
+        <div class="grid grid-cols-2 gap-2">
+          <input type="text" id="user-name" placeholder="이름 (선택)" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
+          <input type="tel" id="user-phone" placeholder="전화번호 (선택)" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
+        </div>
+        <button type="submit" id="btn-submit-welcome" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-black rounded-xl py-3 text-base transition-all shadow-lg mt-2">
           <span id="btn-text-welcome">용기내 매장 보기</span>
         </button>
       </form>
@@ -128,14 +127,16 @@
           <option value="1층">1층</option>
           <option value="2층">2층</option>
           <option value="3층">3층</option>
-          <option value="외야">외야</option>
+          <option value="4층">4층</option>
+          <option value="구분없음">구분없음</option>
         </select>
         <select id="filter-zone" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 pr-8 text-xs text-slate-300 focus:outline-none focus:border-green-400">
           <option value="">모든 구역</option>
-          <option value="1루">1루 측</option>
-          <option value="3루">3루 측</option>
-          <option value="중앙">중앙/포수뒤</option>
-          <option value="외야">외야 구역</option>
+          <option value="1루">1루</option>
+          <option value="3루">3루</option>
+          <option value="중앙">중앙</option>
+          <option value="외야">외야</option>
+          <option value="외부">외부 (입장 전)</option>
         </select>
       </div>
       <div>
