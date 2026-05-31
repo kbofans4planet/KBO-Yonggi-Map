@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link rel="shortcut icon" href="#">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚾</text></svg>">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>야구장 용기낼지도</title>
@@ -26,7 +26,7 @@
       </div>
       <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 my-6 neon-border">
           <h3 class="text-xs font-bold text-green-400 uppercase tracking-widest mb-3 flex items-center">
-            <i class="fa-solid fa-ranking-star mr-1.5"></i> 용기내지도 이용 TOP 3  
+            <i class="fa-solid fa-ranking-star mr-1.5"></i> 용기내지도 사용 팀 TOP 3  
           </h3>
           <div id="top-teams-list" class="space-y-2.5">
             <div class="animate-pulse flex justify-between items-center bg-slate-900/50 px-3 py-2.5 rounded-xl border border-slate-800/50">
@@ -46,7 +46,7 @@
       <form id="welcome-form" class="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
         <div>
           <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">응원팀 선택 <span class="text-red-400">*</span></label>
-          <select id="user-team" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-green-400">
+          <select id="user-team" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 pr-10 text-sm text-white focus:outline-none focus:border-green-400">
             <option value="">응원 구단을 선택해 주세요</option>
             <option value="LG 트윈스">LG 트윈스</option>
             <option value="KT 위즈">KT 위즈</option>
@@ -62,7 +62,7 @@
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">방문 구장 선택 <span class="text-red-400">*</span></label>
-          <select id="user-stadium" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-green-400">
+          <select id="user-stadium" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 pr-10 text-sm text-white focus:outline-none focus:border-green-400">
             <option value="">방문하신 야구장을 골라주세요</option>
             <option value="잠실야구장">잠실야구장</option>
             <option value="사직야구장">사직야구장</option>
@@ -87,7 +87,7 @@
           </div>
         </div>
         <button type="submit" id="btn-submit-welcome" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-bold rounded-xl py-3 text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 mt-4 cursor-pointer">
-          <span id="btn-text-welcome">용기내 지도 보기</span>
+          <span id="btn-text-welcome">용기내 매장 보기</span>
         </button>
       </form>
     </div> 
@@ -109,14 +109,14 @@
         <input type="text" id="search-input" placeholder="매장 이름이나 메뉴 검색 (예: 떡볶이)" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-green-400">
       </div>
       <div class="grid grid-cols-2 gap-2">
-        <select id="filter-floor" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
+        <select id="filter-floor" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 pr-8 text-xs text-slate-300 focus:outline-none focus:border-green-400">
           <option value="">모든 층수</option>
           <option value="1층">1층</option>
           <option value="2층">2층</option>
           <option value="3층">3층</option>
           <option value="외야">외야</option>
         </select>
-        <select id="filter-zone" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
+        <select id="filter-zone" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 pr-8 text-xs text-slate-300 focus:outline-none focus:border-green-400">
           <option value="">모든 구역</option>
           <option value="1루">1루 측</option>
           <option value="3루">3루 측</option>
@@ -125,7 +125,7 @@
         </select>
       </div>
       <div>
-        <select id="filter-container-type" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
+        <select id="filter-container-type" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 pr-8 text-xs text-slate-300 focus:outline-none focus:border-green-400">
           <option value="">모든 용기 유형 (전체보기)</option>
           <option value="cup">🥤 다회용컵 사용 매장</option>
           <option value="dish">🍲 다회용그릇 사용 매장</option>
