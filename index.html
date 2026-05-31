@@ -238,12 +238,11 @@
       if (!teams || teams.length === 0) {
         container.innerHTML = `<p class="text-xs text-slate-400 text-center py-2">첫 사용자가 되어주세요! ⚾</p>`;
         return;
-      }
-      const medals = ["🏆", "🥈", "🥉"];
+      } 
       container.innerHTML = teams.map((t, idx) => `
         <div class="flex justify-between items-center text-sm bg-slate-900/50 px-3 py-2 rounded-xl border border-slate-800/50">
           <div class="flex items-center gap-2">
-            <span class="text-xs">${medals[idx] || idx + 1}</span>
+            <span class="text-xs">🔥</span>
             <span class="font-bold text-white">${t.team}</span>
           </div>
           <span class="text-xs text-green-400 font-semibold bg-green-400/10 px-2 py-0.5 rounded-full">${t.count}명 참여</span>
