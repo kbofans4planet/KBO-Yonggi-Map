@@ -160,7 +160,7 @@
             </label>
             <label class="flex items-center gap-2 bg-slate-950 border border-slate-700 px-3 py-2.5 rounded-xl text-xs text-slate-300 cursor-pointer">
               <input type="radio" name="report-type" value="매장 변경" class="accent-green-400">
-              <span>매장 변경/오류</span>
+              <span>매장 변경</span>
             </label>
           </div>
         </div>
@@ -359,10 +359,9 @@
               <span class="text-[10px] font-bold text-slate-400 bg-slate-950 px-2 py-0.5 rounded-md">
                 📍 ${s["층수"]} | ${s["구역"]} (${s["인근 블록"]})
               </span>
-              // renderStoreList 함수 내부 버튼 수정
               <button onclick="openReportModal('${s["매장일련번호"]}', '${s["매장명"]}')" 
                       class="text-[10px] font-bold text-rose-400 hover:text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded-md border border-rose-500/20 transition-all cursor-pointer">
-                <i class="fa-solid fa-pen mr-1"></i> 개인용기/변경 제보
+                <i class="fa-solid fa-pen mr-1"></i> 제보하기
               </button>
             </div>
             
