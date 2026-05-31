@@ -407,7 +407,8 @@
                   <span class="text-[11px] font-bold text-slate-400 bg-slate-950 px-2 py-1 rounded-md">
                       📍 ${s["층수"]} | ${s["구역"]} (${s["인근 블록"]})
                   </span>
-                  <button onclick="openReportModal(...)" class="text-[11px] font-bold text-rose-400 bg-rose-500/10 px-2 py-1 rounded-md border border-rose-500/20">
+                  <button onclick="openReportModal('${s["매장일련번호"]}', '${s["매장명"]}')" 
+                          class="text-[11px] font-bold text-rose-400 bg-rose-500/10 px-2 py-1 rounded-md border border-rose-500/20">
                       <i class="fa-solid fa-pen mr-1"></i> 제보
                   </button>
               </div>
@@ -420,7 +421,6 @@
                   </div>
               </div>
            </div>
-        </div>
         `;
       }).join('');
     }
