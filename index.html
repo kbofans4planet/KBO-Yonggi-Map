@@ -79,13 +79,13 @@
       <div class="flex gap-3 mt-4">
         <a href="https://www.instagram.com/kbofans4planet/" target="_blank" 
            class="flex-1 flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl py-3 text-sm transition-all border border-slate-700">
-            <i class="fa-brands fa-instagram text-pink-500 text-lg"></i> 인스타그램
+            <i class="fa-brands fa-instagram text-pink-500 text-lg"></i> 크보플 인스타그램
         </a>
-        <a href="https://https://x.com/kbo_fans4planet" target="_blank" 
+        <a href="https://twitter.com/본인의트위터주소" target="_blank" 
            class="flex-1 flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl py-3 text-sm transition-all border border-slate-700">
-            <i class="fa-brands fa-x-twitter text-white text-lg"></i> X
+            <i class="fa-brands fa-x-twitter text-white text-lg"></i> 크보플 X
         </a>
-      </div>
+      </div> 
       
       <div class="mt-8 text-center px-4">
           <p class="text-[11px] text-slate-500 leading-relaxed">
@@ -251,7 +251,7 @@
       container.innerHTML = teams.slice(0, 3).map((t) => `
         <div class="flex-1 bg-slate-900 border border-slate-800 rounded-xl p-2 text-center">
           <div class="text-lg">${teamEmojis[t.team] || "⚾"}</div>
-          <div class="text-[10px] font-bold text-white truncate">${t.team.split(' ')[0]}</div>
+          <div class="text-[10px] font-bold text-white leading-tight">${t.team}</div>
           <div class="text-[9px] text-green-400 font-medium">${t.count}회</div>
         </div>
       `).join('');
