@@ -227,17 +227,6 @@
         if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
         if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
       }
-
-      document.getElementById("btn-change-stadium").addEventListener("change", (e) => {
-        const newStadium = e.target.value;
-        if (newStadium) {
-          selectedStadium = newStadium;
-          localStorage.setItem("user_stadium", newStadium);
-          document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
-          renderStoreList();
-          e.target.value = "";
-        }
-      });
     });
 
     async function fetchInitialData() {
