@@ -228,19 +228,20 @@
   </div>
 
     <div id="review-list-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
-        <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 max-h-[80vh] overflow-y-auto">
+        <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 max-h-[80vh] flex flex-col">
             <h3 id="list-modal-title" class="text-lg font-bold text-white mb-4">매장 후기</h3>
-            <div id="review-list-container" class="space-y-3">
-                </div>
+            
+            <div id="review-list-container" class="space-y-3 overflow-y-auto flex-1"></div>
+            
+            <button id="btn-load-more" onclick="loadMoreReviews()" 
+                    class="hidden w-full py-2 mt-2 text-xs text-slate-400 border border-slate-700 rounded-xl hover:bg-slate-800 transition-all">
+                더보기 +
+            </button>
+            
             <button onclick="document.getElementById('review-list-modal').classList.add('hidden')" 
                     class="w-full mt-4 bg-slate-700 py-2 rounded-xl text-sm">닫기</button>
         </div>
     </div>
-  <div id="review-list-container"></div>
-  <button id="btn-load-more" onclick="loadMoreReviews()" 
-          class="hidden w-full py-2 mt-2 text-xs text-slate-400 border border-slate-700 rounded-xl hover:bg-slate-800 transition-all">
-      더보기 +
-  </button>
     <div id="review-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
         <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
             <div class="flex justify-between items-start mb-2">
