@@ -464,7 +464,12 @@
           String(s["주요 메뉴"]).toLowerCase().includes(searchKeyword)
         );
       }
-      filtered.sort((a, b) => Number(a["매장일련번호"]) - Number(b["매장일련번호"]));
+      filtered.sort((a, b) => {
+        const valA = String(a["매장일련번호"]);
+        const valB = String(b["매장일련번호"]);
+        // numeric: true 옵션을 주면 "A1", "A2", "A10" 순서로 예쁘게 정렬됩니다.
+        return valA.localeCompare(valB, undefined, { numeric: true, sensitivity: 'base' });
+      });
       if (filtered.length === 0) {
         container.innerHTML = `
           <div class="text-center py-12 text-slate-500 bg-slate-850 rounded-2xl border border-dashed border-slate-800">
