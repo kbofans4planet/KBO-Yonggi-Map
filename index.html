@@ -223,7 +223,6 @@
       </form>
     </div>
   </div>
-
     <div id="review-list-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
         <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 max-h-[80vh] flex flex-col">
             <h3 id="list-modal-title" class="text-lg font-bold text-white mb-4">매장 후기</h3>
@@ -516,9 +515,7 @@
       document.getElementById("modal-serial-number").value = serialNum;
       // 여기서 제목 텍스트를 구성하는 부분을 수정합니다.
       const titleElement = document.querySelector("#report-modal h3"); // 모달 안의 h3 선택
-      titleElement.innerText = `${storeName} 정보 제보 / 수정 요청`;
-      document.getElementById("modal-store-name").innerText = `${storeName} 관련 정보 제보`;
-      document.getElementById("report-modal").classList.remove("hidden");
+      titleElement.innerHTML = `<i class="fa-solid fa-pen-to-square text-sky-400"></i> ${storeName} 정보 제보 / 수정 요청`;      document.getElementById("report-modal").classList.remove("hidden");
     }
     document.getElementById("btn-close-modal").addEventListener("click", closeModal);
     function closeModal() {
