@@ -98,18 +98,9 @@
         <i class="fa-solid fa-location-dot text-green-400"></i> 야구장
       </h2>
       <div class="relative inline-block">
-        <select id="btn-change-stadium" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 appearance-none cursor-pointer pr-6">
-          <option value="" disabled selected>🔄 구장 변경</option>
-          <option value="잠실야구장">잠실야구장</option>
-          <option value="사직야구장">사직야구장</option>
-          <option value="광주-기아챔피언스필드">광주-기아챔피언스필드</option>
-          <option value="대구삼성라이온즈파크">대구삼성라이온즈파크</option>
-          <option value="창원NC파크">창원NC파크</option>
-          <option value="수원KT위즈파크">수원KT위즈파크</option>
-          <option value="인천SSG랜더스필드">인천SSG랜더스필드</option>
-          <option value="대전한화생명이글스파크">대전한화생명이글스파크</option>
-          <option value="고척스카이돔">고척스카이돔</option>
-        </select>
+        <button id="btn-change-stadium" class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 cursor-pointer flex items-center gap-1.5">
+          <i class="fa-solid fa-rotate-left"></i> 구장/팀 변경
+        </button>
       </div>
     </div>
     <div class="sticky top-0 bg-slate-900 pt-1 pb-4 z-10 space-y-2">
@@ -214,15 +205,14 @@
         if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
         if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
       }
-      document.getElementById("btn-change-stadium").addEventListener("change", (e) => {
-        const newStadium = e.target.value;
-        if (newStadium) {
-          selectedStadium = newStadium;
-          localStorage.setItem("user_stadium", newStadium);
-          document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
-          renderStoreList();
-          e.target.value = "";
-        }
+      document.getElementById("btn-change-stadium").addEventListener("click", () => {
+        // 메인 뷰를 숨기고 환영 뷰를 보여줌
+        document.getElementById("view-main").classList.add("hidden");
+        document.getElementById("view-welcome").classList.remove("hidden");
+        
+        // 선택적: 필요하다면 localStorage의 인증 날짜를 초기화하여 
+        // 다시 들어왔을 때 정보를 새로 입력하게 할 수도 있습니다.
+        // localStorage.removeItem("last_auth_date"); 
       });
     });
     async function fetchInitialData() {
@@ -298,8 +288,8 @@
           localStorage.setItem("last_auth_date", todayStr);
           localStorage.setItem("user_stadium", stadium);
           localStorage.setItem("user_team", team);
-          if (nameInput) localStorage.setItem("user_name", name);
-          if (phoneInput) localStorage.setItem("user_phone", phone.replace("'", ""));
+          if (nameInput) localStorage.setItem("user_name", nameInput);
+          if (phoneInput) localStorage.setItem("user_phone", phoneInput.replace("'", ""));
           selectedStadium = stadium;
           showMainView();
         } else {
