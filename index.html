@@ -520,6 +520,7 @@
       // 여기서 제목 텍스트를 구성하는 부분을 수정합니다.
       const titleElement = document.querySelector("#report-modal h3"); // 모달 안의 h3 선택
       titleElement.innerText = `${storeName} 정보 제보 / 수정 요청`;
+      document.getElementById("modal-store-name").innerText = `${storeName} 관련 정보 제보`;
       document.getElementById("report-modal").classList.remove("hidden");
     }
     document.getElementById("btn-close-modal").addEventListener("click", closeModal);
