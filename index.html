@@ -407,7 +407,7 @@
         btnText.innerText = "잠시만 기다려 주세요...";
     
         let phoneValue = phoneInput ? "'" + phoneInput : "";
-        const payload = { action: "auth", team, stadium, name: nameInput, phone: phoneValue, secret:kboplbrave2026};
+        const payload = { action: "auth", team, stadium, name: nameInput, phone: phoneValue, secret:"kboplbrave2026"};
     
         try {
             const response = await fetch(GAS_WEB_APP_URL, {
@@ -554,7 +554,7 @@
           return;
         }
       }
-      const payload = { action: "report", serialNumber, storeName, reportType, message, imageData, imageName, secret:kboplbrave2026};
+      const payload = { action: "report", serialNumber, storeName, reportType, message, imageData, imageName, secret:"kboplbrave2026"};
       try {
         const response = await fetch(GAS_WEB_APP_URL, {
           method: "POST",
@@ -720,7 +720,7 @@ document.getElementById("review-form").addEventListener("submit", async (e) => {
         }
     }
 
-    const payload = { action: "addReview", serial, storeName, message, team, photoUrl, secret:kboplbrave2026};
+    const payload = { action: "addReview", serial, storeName, message, team, photoUrl, secret:"kboplbrave2026"};
 
     try {
         await fetch(GAS_WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) });
