@@ -615,6 +615,7 @@ async function showReviewListModal(serial, storeName) {
     try {
         const response = await fetch(`${GAS_WEB_APP_URL}?action=getReviews&serial=${serial}`);
         const reviews = await response.json();
+        console.log("서버에서 받은 전체 데이터:", reviews); // <--- 이 줄을 추가!
         
         if (reviews.length === 0) {
             container.innerHTML = "<p class='text-slate-500 text-sm text-center'>아직 작성된 후기가 없어요!</p>";
