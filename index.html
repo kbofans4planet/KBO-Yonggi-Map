@@ -38,7 +38,7 @@
       </div>
       <form id="welcome-form" class="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
         <div class="flex items-center gap-3">
-          <label class="w-16 text-xs font-bold text-slate-400 shrink-0">응원팀</label>
+          <label class="w-20 text-sm font-bold text-slate-400 shrink-0">응원팀</label>
           <select id="user-team" required class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
             <option value="">응원팀을 선택해주세요</option>
             <option value="KIA 타이거즈">KIA 타이거즈</option>
@@ -54,7 +54,7 @@
           </select>
         </div>
         <div class="flex items-center gap-3">
-          <label class="w-16 text-xs font-bold text-slate-400 shrink-0">방문구장</label>
+          <label class="w-20 text-sm font-bold text-slate-400 shrink-0">방문구장</label>
           <select id="user-stadium" required class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
             <option value="">방문 구장을 선택해주세요</option>
             <option value="고척스카이돔">고척스카이돔</option>
@@ -70,7 +70,14 @@
         </div>
         <div class="grid grid-cols-2 gap-2">
           <input type="text" id="user-name" placeholder="이름 (선택)" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-          <input type="tel" id="user-phone" placeholder="번호 (선택)" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
+          <input type="tel" id="user-phone" placeholder="전화번호 (선택)" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
+        </div>
+        <!-- 개인정보 동의 문구 -->
+        <div class="mt-4 px-2 text-center">
+            <p class="text-[10px] text-slate-500 leading-tight">
+                설문/이벤트 참여를 원할 경우 이름과 전화번호를 입력해주세요.<br>
+                (정보 입력 = 개인정보 수집 및 이용 동의)
+            </p>
         </div>
         <button type="submit" id="btn-submit-welcome" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-black rounded-xl py-4 text-base transition-all shadow-lg mt-2">
           용기내 매장 보기
@@ -251,8 +258,8 @@
       container.innerHTML = teams.slice(0, 3).map((t) => `
         <div class="flex-1 bg-slate-900 border border-slate-800 rounded-xl p-2 text-center">
           <div class="text-lg">${teamEmojis[t.team] || "⚾"}</div>
-          <div class="text-[10px] font-bold text-white leading-tight">${t.team}</div>
-          <div class="text-[9px] text-green-400 font-medium">${t.count}회</div>
+          <div class="text-[12px] font-bold text-white leading-tight">${t.team}</div>
+          <div class="text-[10px] text-green-400 font-medium">${t.count}회</div>
         </div>
       `).join('');
     }
@@ -376,18 +383,18 @@
       }
       // renderStoreList 함수 내의 map 함수 부분을 수정합니다.
       container.innerHTML = filtered.map(s => {
-        const cupBadge = s["다회용컵 사용 여부"] === "사용" ? `<span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🥤 다회용컵</span>` : '';
-        const dishBadge = s["다회용그릇 사용 여부"] === "사용" ? `<span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🍲 다회용그릇</span>` : '';
-        const selfBadge = s["개인용기 사용 가능 여부"] === "가능" ? `<span class="bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🛍️ 개인용기 환영</span>` : '';
+        const cupBadge = s["다회용컵 사용 여부"] === "사용" ? `<span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[12px] px-1.5 py-0.5 rounded-md font-medium">🥤 다회용컵</span>` : '';
+        const dishBadge = s["다회용그릇 사용 여부"] === "사용" ? `<span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[12px] px-1.5 py-0.5 rounded-md font-medium">🍲 다회용그릇</span>` : '';
+        const selfBadge = s["개인용기 사용 가능 여부"] === "가능" ? `<span class="bg-green-500/10 text-green-400 border border-green-500/20 text-[12px] px-1.5 py-0.5 rounded-md font-medium">🛍️ 개인용기 환영</span>` : '';
         
         return `
           <div class="bg-slate-850 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between hover:border-slate-700 transition-colors">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-bold text-slate-400 bg-slate-950 px-2 py-0.5 rounded-md">
+              <span class="text-[12px] font-bold text-slate-400 bg-slate-950 px-2 py-0.5 rounded-md">
                 📍 ${s["층수"]} | ${s["구역"]} (${s["인근 블록"]})
               </span>
               <button onclick="openReportModal('${s["매장일련번호"]}', '${s["매장명"]}')" 
-                      class="text-[10px] font-bold text-rose-400 hover:text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded-md border border-rose-500/20 transition-all cursor-pointer">
+                      class="text-[12px] font-bold text-rose-400 hover:text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded-md border border-rose-500/20 transition-all cursor-pointer">
                 <i class="fa-solid fa-pen mr-1"></i> 제보하기
               </button>
             </div>
