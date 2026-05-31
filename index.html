@@ -13,13 +13,11 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
 
-  <!-- 초기 로딩 스피너 -->
   <div id="init-loader" class="fixed inset-0 bg-slate-950 z-50 flex flex-col items-center justify-center">
     <i class="fa-solid fa-circle-notch fa-spin text-5xl text-green-400 mb-4"></i>
     <p class="text-lg font-bold text-green-400">야구장 용기낼지도 불러오는 중...</p>
   </div>
 
-  <!-- 1. 웰컴 / 정보 입력 화면 -->
   <div id="view-welcome" class="hidden max-w-md mx-auto px-4 py-8 flex flex-col min-h-screen justify-between">
     <div>
       <div class="text-center my-6">
@@ -95,13 +93,11 @@
   </div>
 
 
-  <!-- 2. 메인 지도 / 리스트 화면 -->
   <div id="view-main" class="hidden max-w-md mx-auto px-4 py-6">
     <div class="flex justify-between items-center mb-4">
       <h2 id="current-stadium-title" class="text-xl font-black text-white flex items-center gap-1.5">
         <i class="fa-solid fa-location-dot text-green-400"></i> 야구장
       </h2>
-      <!-- 구장 변경 시 바로 팝업 선택창이 뜨도록 구조 변경 -->
       <div class="relative inline-block">
         <select id="btn-change-stadium" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 appearance-none cursor-pointer pr-6">
           <option value="" disabled selected>🔄 구장 변경</option>
@@ -130,6 +126,7 @@
           <option value="1층">1층</option>
           <option value="2층">2층</option>
           <option value="3층">3층</option>
+          <option value="4층">4층</option>
           <option value="외야">외야</option>
         </select>
         <select id="filter-zone" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
@@ -138,6 +135,7 @@
           <option value="3루">3루 측</option>
           <option value="중앙">중앙/포수뒤</option>
           <option value="외야">외야 구역</option>
+          <option value="외부">외부 (입장 전)</option>
         </select>
       </div>
       <div>
@@ -155,7 +153,6 @@
   </div>
 
 
-  <!-- 3. 제보 모달 창 -->
   <div id="report-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
       <div class="flex justify-between items-start">
@@ -211,7 +208,6 @@
     let selectedStadium = "";
     let isAlreadyAuthed = false;
 
-    // [중복 방지 핵심 1] 페이지 로드 즉시 로컬스토리지 판별
     (function preCheckAuth() {
       const todayStr = new Date().toISOString().split('T')[0];
       const localAuthDate = localStorage.getItem("last_auth_date");
@@ -240,18 +236,13 @@
         if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
       }
 
-      // [중복 방지 핵심 2] 구장 변경 시 데이터베이스 송신 없이 클라이언트 안에서 즉시 전환
       document.getElementById("btn-change-stadium").addEventListener("change", (e) => {
         const newStadium = e.target.value;
         if (newStadium) {
           selectedStadium = newStadium;
-          localStorage.setItem("user_stadium", newStadium); // 선택 구장 기억 업데이트
-          
-          // 상단 타이틀 즉시 변경 및 리스트 새로고침
+          localStorage.setItem("user_stadium", newStadium);
           document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
           renderStoreList();
-          
-          // 드롭다운 기본값('구장 변경')으로 다시 리셋
           e.target.value = "";
         }
       });
@@ -265,11 +256,12 @@
           allStores = data.stores;
           renderTopTeams(data.topTeams);
         } else {
-          alert("데이터 로드 실패: " + data.message);
+          console.error("데이터 세부 로드 실패:", data.message);
         }
       } catch (err) {
-        console.error(err);
+        console.error("네트워크 연동 실패:", err);
       } finally {
+        // 네트워크 장애 상황에서도 먹통이 되지 않고 강제로 스피너 해제
         document.getElementById("init-loader").classList.add("hidden");
       }
     }
@@ -482,7 +474,7 @@
         console.error(err);
         alert("제보 처리가 완료되었습니다. 관리자 확인 후 반영됩니다! 🌱");
         closeModal();
-      } final {
+      } finally {
         btn.disabled = false;
         btnText.innerText = "제보 등록하기";
       }
