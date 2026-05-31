@@ -251,12 +251,24 @@
     async function fetchInitialData() {
       try {
         const response = await fetch(GAS_WEB_APP_URL);
-        const data = await response.json();
+        
+        // 1. 응답 상태를 먼저 확인
+        if (!response.ok) {
+          console.error("서버 응답 오류:", response.status);
+          return;
+        }
+        
+        // 2. 텍스트로 먼저 받아서 콘솔에 찍어보기 (문제가 어디서 발생하는지 확인)
+        const textData = await response.text();
+        console.log("받아온 데이터:", textData); // 여기서 데이터가 잘 찍히는지 F12 콘솔에서 확인
+        
+        const data = JSON.parse(textData); // 여기서 에러가 나면 데이터 형식이 잘못된 것
+        
         if (data.status === "success") {
           allStores = data.stores;
           renderTopTeams(data.topTeams);
         } else {
-          console.error("데이터 세부 로드 실패:", data.message);
+          console.error("데이터 로드 실패:", data.message);
         }
       } catch (err) {
         console.error("네트워크 연동 실패:", err);
