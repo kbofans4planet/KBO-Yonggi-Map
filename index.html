@@ -109,20 +109,9 @@
       <h2 id="current-stadium-title" class="text-xl font-black text-white flex items-center gap-1.5">
         <i class="fa-solid fa-location-dot text-green-400"></i> 야구장
       </h2>
-      <div class="relative inline-block">
-        <select id="btn-change-stadium" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 appearance-none cursor-pointer pr-6">
-          <option value="" disabled selected>🔄 구장 변경</option>
-          <option value="잠실야구장">잠실야구장</option>
-          <option value="사직야구장">사직야구장</option>
-          <option value="광주-기아챔피언스필드">광주-기아챔피언스필드</option>
-          <option value="대구삼성라이온즈파크">대구삼성라이온즈파크</option>
-          <option value="창원NC파크">창원NC파크</option>
-          <option value="수원KT위즈파크">수원KT위즈파크</option>
-          <option value="인천SSG랜더스필드">인천SSG랜더스필드</option>
-          <option value="대전한화생명이글스파크">대전한화생명이글스파크</option>
-          <option value="고척스카이돔">고척스카이돔</option>
-        </select>
-      </div>
+      <button onclick="location.reload()" class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 cursor-pointer">
+        <i class="fa-solid fa-rotate-left mr-1"></i> 처음으로
+      </button>
     </div>
 
     <div class="sticky top-0 bg-slate-900 pt-1 pb-4 z-10 space-y-2">
@@ -401,21 +390,20 @@
         const selfBadge = s["개인용기 사용 가능 여부"] === "가능" ? `<span class="bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🛍️ 개인용기 환영</span>` : '';
         
         return `
-          <div class="bg-slate-850 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between hover:border-slate-700 transition-colors">
-            <div>
+          <div class="bg-slate-850 border border-slate-800 rounded-2xl p-4 hover:border-slate-700 transition-colors">
+            <div class="flex justify-between items-start">
               <span class="text-[10px] font-bold text-slate-400 bg-slate-950 px-2 py-0.5 rounded-md">
                 📍 ${s["층수"]} | ${s["구역"]} (${s["인근 블록"]})
               </span>
-              <h4 class="text-base font-bold text-white mt-1.5">${s["매장명"]}</h4>
-              <p class="text-xs text-slate-400 mt-1"><span class="text-slate-500 font-medium">메뉴:</span> ${s["주요 메뉴"]}</p>
-              <div class="flex flex-wrap gap-1 mt-3">
-                ${cupBadge} ${dishBadge} ${selfBadge}
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-end">
-              <button onclick="openReportModal('${s["매장일련번호"]}', '${s["매장명"]}')" class="text-[11px] font-medium text-slate-400 hover:text-green-400 bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-800 hover:border-green-500/30 transition-all cursor-pointer">
-                <i class="fa-solid fa-pen mr-1"></i> 제보하기
+              <button onclick="openReportModal('${s["매장일련번호"]}', '${s["매장명"]}')" class="text-[10px] text-slate-500 hover:text-green-400 px-2 py-0.5 border border-slate-800 rounded-md transition-all">
+                <i class="fa-solid fa-pen mr-1"></i>제보
               </button>
+            </div>
+            
+            <h4 class="text-base font-bold text-white mt-2">${s["매장명"]}</h4>
+            <p class="text-xs text-slate-400 mt-1"><span class="text-slate-500 font-medium">메뉴:</span> ${s["주요 메뉴"]}</p>
+            <div class="flex flex-wrap gap-1 mt-3">
+              ${cupBadge} ${dishBadge} ${selfBadge}
             </div>
           </div>
         `;
