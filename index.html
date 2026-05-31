@@ -7,20 +7,17 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* 전광판 느낌을 위한 네온 효과 스타일 */
     .neon-border { box-shadow: 0 0 10px rgba(34, 197, 94, 0.5); }
     .neon-text { text-shadow: 0 0 8px rgba(34, 197, 94, 0.6); }
   </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
 
-  <!-- 초기 로딩 스피너 -->
   <div id="init-loader" class="fixed inset-0 bg-slate-950 z-50 flex flex-col items-center justify-center">
     <i class="fa-solid fa-circle-notch fa-spin text-5xl text-green-400 mb-4"></i>
     <p class="text-lg font-bold text-green-400">야구장 용기낼지도 불러오는 중...</p>
   </div>
 
-  <!-- 1. 웰컴 / 정보 입력 화면 -->
   <div id="view-welcome" class="hidden max-w-md mx-auto px-4 py-8 flex flex-col min-h-screen justify-between">
     <div>
       <div class="text-center my-6">
@@ -96,25 +93,33 @@
   </div>
 
 
-  <!-- 2. 메인 지도 / 리스트 화면 -->
   <div id="view-main" class="hidden max-w-md mx-auto px-4 py-6">
     <div class="flex justify-between items-center mb-4">
       <h2 id="current-stadium-title" class="text-xl font-black text-white flex items-center gap-1.5">
         <i class="fa-solid fa-location-dot text-green-400"></i> 야구장
       </h2>
-      <button id="btn-change-stadium" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 cursor-pointer">
-        <i class="fa-solid fa-arrow-rotate-left mr-1"></i> 구장 변경
-      </button>
+      <div class="relative inline-block">
+        <select id="btn-change-stadium" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 appearance-none cursor-pointer pr-6">
+          <option value="" disabled selected>🔄 구장 변경</option>
+          <option value="잠실야구장">잠실야구장</option>
+          <option value="사직야구장">사직야구장</option>
+          <option value="광주-기아챔피언스필드">광주-기아챔피언스필드</option>
+          <option value="대구삼성라이온즈파크">대구삼성라이온즈파크</option>
+          <option value="창원NC파크">창원NC파크</option>
+          <option value="수원KT위즈파크">수원KT위즈파크</option>
+          <option value="인천SSG랜더스필드">인천SSG랜더스필드</option>
+          <option value="대전한화생명이글스파크">대전한화생명이글스파크</option>
+          <option value="고척스카이돔">고척스카이돔</option>
+        </select>
+      </div>
     </div>
 
-    <!-- 상단 고정 필터 바 -->
     <div class="sticky top-0 bg-slate-900 pt-1 pb-4 z-10 space-y-2">
       <div class="relative">
         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
         <input type="text" id="search-input" placeholder="매장 이름이나 메뉴 검색 (예: 떡볶이)" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-green-400">
       </div>
 
-      <!-- 필터 드롭다운 영역 (3개 분할 및 다회용기 옵션 추가) -->
       <div class="grid grid-cols-2 gap-2">
         <select id="filter-floor" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
           <option value="">모든 층수</option>
@@ -131,7 +136,6 @@
           <option value="외야">외야 구역</option>
         </select>
       </div>
-      <!-- 용기 유형 필터 드롭다운 (신규 추가) -->
       <div>
         <select id="filter-container-type" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
           <option value="">모든 용기 유형 (전체보기)</option>
@@ -142,13 +146,11 @@
       </div>
     </div>
 
-    <!-- 매장 리스트 컨테이너 -->
     <div id="store-list-container" class="space-y-3.5">
     </div>
   </div>
 
 
-  <!-- 3. 제보 모달 창 -->
   <div id="report-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
       <div class="flex justify-between items-start">
@@ -198,15 +200,12 @@
 
 
   <script>
-    // ⚠️ 구글 앱스 스크립트(GAS) 웹 앱 URL
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjJQR0JCRrGIBEUY-Mj6Y0ipoeGclubZ6hSZpsRbXwM_rgGs0W_5bj0OqtDMx2aTs19g/exec";
 
-    // 글로벌 데이터
     let allStores = [];
     let selectedStadium = "";
     let isAlreadyAuthed = false;
 
-    // 페이지 실행 즉시 검사 (가장 먼저 실행되어 중복 입력을 원천 차단)
     (function preCheckAuth() {
       const todayStr = new Date().toISOString().split('T')[0];
       const localAuthDate = localStorage.getItem("last_auth_date");
@@ -219,48 +218,52 @@
     })();
 
     window.addEventListener("DOMContentLoaded", async () => {
-      // 전화번호 입력 제약
       document.getElementById("user-phone").addEventListener("input", (e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
       });
 
-      // 백엔드 원본 데이터 로드
       await fetchInitialData();
 
-      // 화면 분기 처리
       if (isAlreadyAuthed) {
         showMainView();
       } else {
         document.getElementById("view-welcome").classList.remove("hidden");
-        
-        // 기존에 적었던 정보가 있다면 편의를 위해 자동 입력 보존
         if (localStorage.getItem("user_team")) document.getElementById("user-team").value = localStorage.getItem("user_team");
         if (localStorage.getItem("user_stadium")) document.getElementById("user-stadium").value = localStorage.getItem("user_stadium");
         if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
         if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
       }
+
+      document.getElementById("btn-change-stadium").addEventListener("change", (e) => {
+        const newStadium = e.target.value;
+        if (newStadium) {
+          selectedStadium = newStadium;
+          localStorage.setItem("user_stadium", newStadium);
+          document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
+          renderStoreList();
+          e.target.value = "";
+        }
+      });
     });
 
-    // 백엔드 데이터 패치
     async function fetchInitialData() {
       try {
         const response = await fetch(GAS_WEB_APP_URL);
         const data = await response.json();
-        
         if (data.status === "success") {
           allStores = data.stores;
           renderTopTeams(data.topTeams);
         } else {
-          alert("데이터 로드 실패: " + data.message);
+          console.error("데이터 세부 로드 실패:", data.message);
         }
       } catch (err) {
-        console.error(err);
+        console.error("네트워크 연동 실패:", err);
       } finally {
+        // 네트워크 장애 상황에서도 먹통이 되지 않고 강제로 스피너 해제
         document.getElementById("init-loader").classList.add("hidden");
       }
     }
 
-    // 전광판 그리기
     function renderTopTeams(teams) {
       const container = document.getElementById("top-teams-list");
       if (!teams || teams.length === 0) {
@@ -279,7 +282,6 @@
       `).join('');
     }
 
-    // 처음 진입 유저 양식 제출 (기록 저장)
     document.getElementById("welcome-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       
@@ -295,7 +297,7 @@
       let phone = document.getElementById("user-phone").value;
 
       if (phone) {
-        phone = "'" + phone; // 010 잘림 방지용 접두사
+        phone = "'" + phone;
       }
 
       const payload = { action: "auth", team, stadium, name, phone };
@@ -324,50 +326,38 @@
       } catch (err) {
         console.error(err);
         selectedStadium = stadium;
-        showMainView(); // 에러 발생 시에도 지도 자동 진입 우회
+        showMainView();
       } finally {
         btn.disabled = false;
         btnText.innerText = "다회용기 매장 지도 보기";
       }
     });
 
-    // 메인 리스트 컨트롤러 진입
     function showMainView() {
       document.getElementById("view-welcome").classList.add("hidden");
       document.getElementById("view-main").classList.remove("hidden");
       document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
       
-      // 필터 및 검색창 이벤트 연결
       document.getElementById("search-input").addEventListener("input", renderStoreList);
       document.getElementById("filter-floor").addEventListener("change", renderStoreList);
       document.getElementById("filter-zone").addEventListener("change", renderStoreList);
-      document.getElementById("filter-container-type").addEventListener("change", renderStoreList); // 용기 필터 연결
+      document.getElementById("filter-container-type").addEventListener("change", renderStoreList);
       
       renderStoreList();
     }
 
-    // 구장 변경 클릭 시 초기화
-    document.getElementById("btn-change-stadium").addEventListener("click", () => {
-      localStorage.removeItem("last_auth_date");
-      location.reload();
-    });
-
-    // 매장 데이터 렌더링 및 트리플 복합 필터링 기능
     function renderStoreList() {
       const container = document.getElementById("store-list-container");
       const searchKeyword = document.getElementById("search-input").value.toLowerCase();
       const floorFilter = document.getElementById("filter-floor").value;
       const zoneFilter = document.getElementById("filter-zone").value;
-      const containerFilter = document.getElementById("filter-container-type").value; // 추가된 용기 필터값
+      const containerFilter = document.getElementById("filter-container-type").value;
 
       let filtered = allStores.filter(s => s["야구장"] === selectedStadium);
 
-      // 1. 층수 필터
       if (floorFilter) filtered = filtered.filter(s => String(s["층수"]).includes(floorFilter));
-      // 2. 구역 필터
       if (zoneFilter) filtered = filtered.filter(s => String(s["구역"]).includes(zoneFilter));
       
-      // 3. 용기 유형 필터 (신규 추가 로직)
       if (containerFilter) {
         if (containerFilter === "cup") {
           filtered = filtered.filter(s => s["다회용컵 사용 여부"] === "사용");
@@ -378,7 +368,6 @@
         }
       }
 
-      // 4. 텍스트 검색 필터
       if (searchKeyword) {
         filtered = filtered.filter(s => 
           String(s["매장명"]).toLowerCase().includes(searchKeyword) || 
@@ -422,7 +411,6 @@
       }).join('');
     }
 
-    // 제보 모달 제어
     window.openReportModal = function(serialNum, storeName) {
       document.getElementById("modal-serial-number").value = serialNum;
       document.getElementById("modal-store-name").innerText = `${storeName} 관련 정보 제보`;
@@ -435,7 +423,6 @@
       document.getElementById("report-form").reset();
     }
 
-    // 제보 서브밋
     document.getElementById("report-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const btn = document.getElementById("btn-submit-report");
@@ -491,7 +478,6 @@
       }
     });
 
-    // 이미지 리사이징 기능
     function resizeAndConvertImage(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
