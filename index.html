@@ -709,9 +709,21 @@ document.getElementById("review-form").addEventListener("submit", async (e) => {
     btnText.innerText = "등록 중...";
 
     let photoUrl = "";
+    let originalName = ""; // 추가
+    
     if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        
+        // 1. 현재 시간 포맷 만들기 (예: 20260601_153005)
+        const now = new Date();
+        const timestamp = now.toISOString().replace(/[:.]/g, "").slice(0, 15); // YYYYMMDDTHHMMSS 형식
+        
+        // 2. 새로운 파일명 생성: 시간_매장명.jpg (확장자는 기존 파일에서 추출 혹은 고정)
+        const extension = file.name.split('.').pop();
+        originalName = `${timestamp}_${storeName}.${extension}`;
+        
         try {
-            photoUrl = await resizeAndConvertImage(fileInput.files[0]);
+            photoUrl = await resizeAndConvertImage(file);
         } catch (err) {
             alert("이미지 처리 실패");
             btn.disabled = false;
