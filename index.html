@@ -227,21 +227,33 @@
       });
     });
     async function fetchInitialData() {
-      try {
-        const response = await fetch(GAS_WEB_APP_URL);
-        const data = await response.json();
-        if (data.status === "success") {
-          allStores = data.stores;
-          renderTopTeams(data.topTeams);
-        } else {
-          console.error("데이터 세부 로드 실패:", data.message);
+        try {
+            const response = await fetch(GAS_WEB_APP_URL);
+            const data = await response.json();
+            if (data.status === "success") {
+                allStores = data.stores;
+                renderTopTeams(data.topTeams);
+            }
+        } catch (err) {
+            console.error("데이터 로드 실패:", err);
         }
-      } catch (err) {
-        console.error("네트워크 연동 실패:", err);
-      } finally {
-        document.getElementById("init-loader").classList.add("hidden");
-      }
     }
+    // 2. 초기화 함수 (async로 감싸서 실행)
+    async function init() {
+        await fetchInitialData(); // 데이터를 먼저 가져오고
+        
+        // 로딩 화면 숨김
+        document.getElementById("init-loader").classList.add("hidden");
+        // 환영 페이지 보여줌
+        document.getElementById("view-welcome").classList.remove("hidden");
+        // 로컬 데이터 복구
+        if (localStorage.getItem("user_team")) document.getElementById("user-team").value = localStorage.getItem("user_team");
+        if (localStorage.getItem("user_stadium")) document.getElementById("user-stadium").value = localStorage.getItem("user_stadium");
+        if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
+        if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
+    }
+    // 페이지 로드 시 실행
+    window.addEventListener("DOMContentLoaded", init);
     function renderTopTeams(teams) {
       const container = document.getElementById("top-teams-list");
       if (!teams || teams.length === 0) {
