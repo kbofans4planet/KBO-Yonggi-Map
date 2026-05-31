@@ -236,6 +236,13 @@
                     class="w-full mt-4 bg-slate-700 py-2 rounded-xl text-sm">닫기</button>
         </div>
     </div>
+    <div id="image-viewer-modal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+        <div class="relative max-w-sm w-full">
+            <button onclick="document.getElementById('image-viewer-modal').classList.add('hidden')" 
+                    class="absolute -top-10 right-0 text-white text-3xl">&times;</button>
+            <img id="full-image" src="" class="w-full rounded-2xl border border-slate-700">
+        </div>
+    </div>
     <div id="review-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
         <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
             <div class="flex justify-between items-start mb-2">
@@ -613,9 +620,17 @@ async function showReviewListModal(serial, storeName) {
             container.innerHTML = "<p class='text-slate-500 text-sm text-center'>아직 작성된 후기가 없어요!</p>";
         } else {
             container.innerHTML = reviews.map(r => `
-                <div class="bg-slate-900 p-3 rounded-xl border border-slate-700">
-                    <p class="text-[10px] text-green-400 font-bold mb-1">${teamEmojis[r.team] || "⚾"} ${r.team}</p>
-                    <p class="text-sm text-white">${r.message}</p>
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex justify-between items-start">
+                    <div class="flex-1">
+                        <p class="text-[10px] text-green-400 font-bold mb-1">${teamEmojis[r.team] || "⚾"} ${r.team}</p>
+                        <p class="text-sm text-white">${r.message}</p>
+                    </div>
+                    ${r.photoUrl ? `
+                        <button onclick="openImage('${r.photoUrl}')" 
+                                class="ml-2 text-[10px] bg-slate-700 text-white px-2 py-1 rounded-md hover:bg-slate-600 transition-all">
+                            📸 사진
+                        </button>
+                    ` : ''}
                 </div>
             `).join('');
         }
@@ -682,6 +697,14 @@ document.getElementById("review-form").addEventListener("submit", async (e) => {
         btnText.innerText = "후기 등록하기";
     }
 });
+
+window.openImage = function(url) {
+    const modal = document.getElementById('image-viewer-modal');
+    const img = document.getElementById('full-image');
+    img.src = url;
+    modal.classList.remove('hidden');
+};
+
     
   </script>
 </body>
