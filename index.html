@@ -464,7 +464,7 @@
           String(s["주요 메뉴"]).toLowerCase().includes(searchKeyword)
         );
       }
-      filtered.sort((a, b) => Number(a["일련번호"]) - Number(b["일련번호"]));
+      filtered.sort((a, b) => Number(a["매장일련번호"]) - Number(b["매장일련번호"]));
       if (filtered.length === 0) {
         container.innerHTML = `
           <div class="text-center py-12 text-slate-500 bg-slate-850 rounded-2xl border border-dashed border-slate-800">
