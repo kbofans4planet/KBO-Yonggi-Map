@@ -28,7 +28,7 @@
 
       <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 my-6 neon-border">
         <h3 class="text-xs font-bold text-green-400 uppercase tracking-widest mb-3 flex items-center">
-          <i class="fa-solid fa-ranking-star mr-1.5"></i> 용기낼지도 이용 TOP 3
+          <i class="fa-solid fa-ranking-star mr-1.5"></i> 야구장 용기낼지도 방문 TOP 3 
         </h3>
         <div id="top-teams-list" class="space-y-2.5">
           <div class="animate-pulse flex justify-between items-center bg-slate-900/50 px-3 py-2.5 rounded-xl border border-slate-800/50">
@@ -103,14 +103,14 @@
     </div>
   </div>
 
-
   <div id="view-main" class="hidden max-w-md mx-auto px-4 py-6">
     <div class="flex justify-between items-center mb-4">
       <h2 id="current-stadium-title" class="text-xl font-black text-white flex items-center gap-1.5">
         <i class="fa-solid fa-location-dot text-green-400"></i> 야구장
       </h2>
+      
       <div class="relative inline-block">
-        <select id="btn-change-stadium" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 appearance-none cursor-pointer pr-6">
+        <select id="btn-change-stadium" class="text-xs font-bold bg-slate-800 text-slate-300 hover:text-orange-400 px-3 py-2 rounded-xl border border-slate-700/80 hover:border-orange-500/50 shadow-md transition-all duration-200 appearance-none cursor-pointer pr-8 focus:outline-none active:scale-95">
           <option value="" disabled selected>🔄 구장 변경</option>
           <option value="잠실야구장">잠실야구장</option>
           <option value="사직야구장">사직야구장</option>
@@ -122,6 +122,7 @@
           <option value="대전한화생명이글스파크">대전한화생명이글스파크</option>
           <option value="고척스카이돔">고척스카이돔</option>
         </select>
+        <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-slate-500 pointer-events-none group-hover:text-orange-400"></i>
       </div>
     </div>
 
@@ -142,11 +143,11 @@
         </select>
         <select id="filter-zone" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
           <option value="">모든 구역</option>
-          <option value="1루">1루 측</option>
-          <option value="3루">3루 측</option>
-          <option value="중앙">중앙/포수뒤</option>
-          <option value="외야">외야 구역</option>
-          <option value="외부">외부 (입장 전)</option>
+          <option value="1루">1루</option>
+          <option value="3루">3루</option>
+          <option value="중앙">중앙</option>
+          <option value="외야">외야</option>
+          <option value="외부">외부</option>
         </select>
       </div>
       <div>
@@ -159,10 +160,8 @@
       </div>
     </div>
 
-    <div id="store-list-container" class="space-y-3.5">
-    </div>
+    <div id="store-list-container" class="space-y-3.5"></div>
   </div>
-
 
   <div id="report-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
@@ -195,7 +194,7 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">제보 내용</label>
-          <textarea id="report-message" required rows="3" placeholder="예: 이 매장 개인 반찬통 가져가면 만두 한 알 더 주시네요! / 폐점되고 다른 가게 생겼어요." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-green-400 resize-none"></textarea>
+          <textarea id="report-message" required rows="3" placeholder="예: 이 매장 개인용기 가져가면 만두 한 알 더 주시네요! / 폐점되고 다른 가게 생겼어요." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-green-400 resize-none"></textarea>
         </div>
 
         <div>
@@ -210,7 +209,6 @@
       </form>
     </div>
   </div>
-
 
   <script>
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjJQR0JCRrGIBEUY-Mj6Y0ipoeGclubZ6hSZpsRbXwM_rgGs0W_5bj0OqtDMx2aTs19g/exec";
@@ -247,15 +245,39 @@
         if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
       }
 
-      document.getElementById("btn-change-stadium").addEventListener("change", (e) => {
+      // ⭐ [핵심 수정] 드롭다운에서 구장을 바꿀 때마다 화면 갱신 + 구글 시트 실시간 업데이트(동기화)
+      document.getElementById("btn-change-stadium").addEventListener("change", async (e) => {
         const newStadium = e.target.value;
-        if (newStadium) {
-          selectedStadium = newStadium;
-          localStorage.setItem("user_stadium", newStadium);
-          document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
-          renderStoreList();
-          e.target.value = "";
+        if (!newStadium) return;
+
+        // 1. 화면 및 스토리지 먼저 기분 좋게 슥 변경
+        selectedStadium = newStadium;
+        localStorage.setItem("user_stadium", newStadium);
+        document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
+        renderStoreList();
+
+        // 2. [실시간 비동기 연동] 브라우저 백그라운드에서 구글 시트에 "이 유저 구장 바꿨어요" 하고 신호 전송
+        const team = localStorage.getItem("user_team") || "";
+        const name = localStorage.getItem("user_name") || "";
+        let phone = localStorage.getItem("user_phone") || "";
+        if (phone && !phone.startsWith("'")) {
+          phone = "'" + phone;
         }
+
+        const payload = { action: "auth", team, stadium: newStadium, name, phone };
+
+        try {
+          // 비동기 전송이라 유저 화면은 멈추지 않고 부드럽게 흐릅니다!
+          await fetch(GAS_WEB_APP_URL, {
+            method: "POST",
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.error("실시간 시트 업데이트 실패:", err);
+        }
+
+        // 드롭다운 선택 문구를 다시 '🔄 구장 변경' 기본값으로 세팅
+        e.target.value = "";
       });
     });
 
@@ -272,7 +294,6 @@
       } catch (err) {
         console.error("네트워크 연동 실패:", err);
       } finally {
-        // 네트워크 장애 상황에서도 먹통이 되지 않고 강제로 스피너 해제
         document.getElementById("init-loader").classList.add("hidden");
       }
     }
@@ -299,10 +320,8 @@
       e.preventDefault();
       
       const btn = document.getElementById("btn-submit-welcome");
-      const btnText = document.getElementById("btn-text-welcome");
-      
       btn.disabled = true;
-      btnText.innerText = "잠시만 기다려 주세요...";
+      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i> 정보를 실시간 반영 중...`;
 
       const team = document.getElementById("user-team").value;
       const stadium = document.getElementById("user-stadium").value;
@@ -320,29 +339,24 @@
           method: "POST",
           body: JSON.stringify(payload)
         });
-        const result = await response.json();
+        await response.json();
 
-        if (result.status === "success") {
-          const todayStr = new Date().toISOString().split('T')[0];
-          localStorage.setItem("last_auth_date", todayStr);
-          localStorage.setItem("user_stadium", stadium);
-          localStorage.setItem("user_team", team);
-          if (name) localStorage.setItem("user_name", name);
-          if (phone) localStorage.setItem("user_phone", phone.replace("'", ""));
+        const todayStr = new Date().toISOString().split('T')[0];
+        localStorage.setItem("last_auth_date", todayStr);
+        localStorage.setItem("user_stadium", stadium);
+        localStorage.setItem("user_team", team);
+        if (name) localStorage.setItem("user_name", name);
+        if (phone) localStorage.setItem("user_phone", phone.replace("'", ""));
 
-          selectedStadium = stadium;
-          showMainView();
-        } else {
-          selectedStadium = stadium;
-          showMainView();
-        }
+        selectedStadium = stadium;
+        showMainView();
       } catch (err) {
         console.error(err);
         selectedStadium = stadium;
         showMainView();
       } finally {
         btn.disabled = false;
-        btnText.innerText = "다회용기 매장 지도 보기";
+        btn.innerHTML = `<span>용기내 매장 보기</span>`;
       }
     });
 
