@@ -239,21 +239,24 @@
     </div>
     <div id="review-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
       <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
-        <div class="flex justify-between items-start mb-4">
-            <div>
-                <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-comment-dots text-sky-400"></i> 소중한 후기 남기기
-                </h3>
-                <p id="review-modal-store-name" class="text-sm text-sky-400 font-bold mt-1"></p>
-            </div>
-            <button id="btn-close-review" class="text-slate-400 hover:text-white text-2xl cursor-pointer mt-[-4px]">&times;</button>
-        </div>
-        <form id="review-form" class="space-y-3.5">
-            <textarea id="review-message" required maxlength="100" rows="3" placeholder="100자 이내로 후기를 남겨주세요!" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-400 resize-none"></textarea>
-            <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-slate-950 font-bold rounded-xl py-3 text-xs">후기 등록</button>
-        </form>
+          <div class="flex justify-between items-start mb-4">
+              <div>
+                  <h3 id="review-modal-title" class="text-base font-bold text-white flex items-center gap-1.5">
+                      소중한 후기 남기기
+                  </h3>
+                  <p id="review-modal-store-name" class="text-sm text-sky-400 font-bold mt-1"></p>
+              </div>
+              <button onclick="closeReviewModal()" class="text-slate-400 hover:text-white text-2xl cursor-pointer mt-[-4px]">&times;</button>
+          </div>
+          <form id="review-form" class="space-y-3.5">
+              <input type="hidden" id="review-serial-number">
+              <textarea id="review-message" required maxlength="100" rows="3" placeholder="100자 이내로 후기를 남겨주세요!" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-400 resize-none"></textarea>
+              <button type="submit" id="btn-submit-review" class="w-full bg-sky-500 hover:bg-sky-600 text-slate-950 font-bold rounded-xl py-3 text-xs">
+                  <span id="btn-text-review">후기 등록하기</span>
+              </button>
+          </form>
       </div>
-    </div>
+  </div>
   <script>
       const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyP2KCvfuapwwP2em7xULPtyoAaI93phj28Mg19sDqdAu3-RWKcDAhP8nabINnH4nHN/exec";
       let allStores = [];
@@ -625,6 +628,8 @@ function openReviewModal(serial, storeName) {
 function closeReviewModal() {
     document.getElementById("review-modal").classList.add("hidden");
     document.getElementById("review-form").reset();
+    document.getElementById("btn-text-review").innerText = "후기 등록하기";
+    document.getElementById("btn-submit-review").disabled = false;
 }
 
 // 후기 제출 로직 (제보와 유사하게 구성)
