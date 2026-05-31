@@ -7,6 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* 전광판 느낌을 위한 네온 효과 스타일 */
     .neon-border { box-shadow: 0 0 10px rgba(34, 197, 94, 0.5); }
     .neon-text { text-shadow: 0 0 8px rgba(34, 197, 94, 0.6); }
   </style>
@@ -28,21 +29,10 @@
 
       <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 my-6 neon-border">
         <h3 class="text-xs font-bold text-green-400 uppercase tracking-widest mb-3 flex items-center">
-          <i class="fa-solid fa-ranking-star mr-1.5"></i> 야구장 용기낼지도 방문 TOP 3 
+          <i class="fa-solid fa-ranking-star mr-1.5"></i> 최다 이용 구단 TOP 3 전광판
         </h3>
         <div id="top-teams-list" class="space-y-2.5">
-          <div class="animate-pulse flex justify-between items-center bg-slate-900/50 px-3 py-2.5 rounded-xl border border-slate-800/50">
-            <div class="h-4 bg-slate-800 rounded w-1/3"></div>
-            <div class="h-4 bg-slate-800 rounded w-14"></div>
-          </div>
-          <div class="animate-pulse flex justify-between items-center bg-slate-900/50 px-3 py-2.5 rounded-xl border border-slate-800/50">
-            <div class="h-4 bg-slate-800 rounded w-1/4"></div>
-            <div class="h-4 bg-slate-800 rounded w-14"></div>
-          </div>
-          <div class="animate-pulse flex justify-between items-center bg-slate-900/50 px-3 py-2.5 rounded-xl border border-slate-800/50">
-            <div class="h-4 bg-slate-800 rounded w-1/3"></div>
-            <div class="h-4 bg-slate-800 rounded w-14"></div>
-          </div>
+          <p class="text-xs text-slate-500 text-center py-2">통계 데이터를 계산하고 있습니다...</p>
         </div>
       </div>
 
@@ -93,7 +83,7 @@
         </div>
 
         <button type="submit" id="btn-submit-welcome" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-bold rounded-xl py-3 text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 mt-4 cursor-pointer">
-          <span id="btn-text-welcome">용기내 매장 보기</span>
+          <span id="btn-text-welcome">다회용기 매장 지도 보기</span>
         </button>
       </form>
     </div>
@@ -103,23 +93,21 @@
     </div>
   </div>
 
+
   <div id="view-main" class="hidden max-w-md mx-auto px-4 py-6">
     <div class="flex justify-between items-center mb-4">
       <h2 id="current-stadium-title" class="text-xl font-black text-white flex items-center gap-1.5">
-        <i class="fa-solid fa-location-dot text-green-400"></i> 야구장
+        <i class="fa-solid fa-location-dot text-green-400"></i> 잠실야구장
       </h2>
-      
-      <div>
-        <button id="btn-go-welcome" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 hover:text-green-400 transition-colors cursor-pointer">
-          <i class="fa-solid fa-rotate-left mr-1"></i> 처음 화면으로
-        </button>
-      </div>
+      <button id="btn-change-stadium" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 cursor-pointer">
+        <i class="fa-solid fa-arrow-rotate-left mr-1"></i> 구장 변경
+      </button>
     </div>
 
-    <div class="sticky top-0 bg-slate-900 pt-1 pb-4 z-10 space-y-2">
+    <div class="sticky top-0 bg-slate-900 pt-1 pb-4 z-10 space-y-2.5">
       <div class="relative">
         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-        <input type="text" id="search-input" placeholder="매장 이름이나 메뉴 검색 (예: 떡볶이)" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-green-400">
+        <input type="text" id="search-input" placeholder="매장 이름이나 먹고 싶은 메뉴 검색 (예: 떡볶이)" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-green-400">
       </div>
 
       <div class="grid grid-cols-2 gap-2">
@@ -128,30 +116,22 @@
           <option value="1층">1층</option>
           <option value="2층">2층</option>
           <option value="3층">3층</option>
-          <option value="4층">4층</option>
           <option value="외야">외야</option>
         </select>
         <select id="filter-zone" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
           <option value="">모든 구역</option>
-          <option value="1루">1루</option>
-          <option value="3루">3루</option>
-          <option value="중앙">중앙</option>
-          <option value="외야">외야</option>
-          <option value="외부">외부</option>
-        </select>
-      </div>
-      <div>
-        <select id="filter-container-type" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
-          <option value="">모든 용기 유형 (전체보기)</option>
-          <option value="cup">🥤 다회용컵 사용 매장</option>
-          <option value="dish">🍲 다회용그릇 사용 매장</option>
-          <option value="self">🛍️ 개인용기 환영 매장</option>
+          <option value="1루">1루 측</option>
+          <option value="3루 측">3루 측</option>
+          <option value="중앙">중앙/포수뒤</option>
+          <option value="외야">외야 구역</option>
         </select>
       </div>
     </div>
 
-    <div id="store-list-container" class="space-y-3.5"></div>
+    <div id="store-list-container" class="space-y-3.5">
+    </div>
   </div>
+
 
   <div id="report-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
@@ -184,7 +164,7 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">제보 내용</label>
-          <textarea id="report-message" required rows="3" placeholder="예: 이 매장 개인용기 가져가면 만두 한 알 더 주시네요! / 폐점되고 다른 가게 생겼어요." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-green-400 resize-none"></textarea>
+          <textarea id="report-message" required rows="3" placeholder="예: 이 매장 개인 반찬통 가져가면 만두 한 알 더 주시네요! / 폐점되고 다른 가게 생겼어요." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-green-400 resize-none"></textarea>
         </div>
 
         <div>
@@ -200,79 +180,58 @@
     </div>
   </div>
 
-  <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyP2KCvfuapwwP2em7xULPtyoAaI93phj28Mg19sDqdAu3-RWKcDAhP8nabINnH4nHN/exec";
 
+  <script>
+    // ⚠️ [필수 확인] 배포하신 구글 앱스 스크립트(GAS) 웹 앱 URL이 맞는지 꼭 확인하세요!
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjJQR0JCRrGIBEUY-Mj6Y0ipoeGclubZ6hSZpsRbXwM_rgGs0W_5bj0OqtDMx2aTs19g/exec";
+
+    // 글로벌 데이터 보관소
     let allStores = [];
     let selectedStadium = "";
-    let isAlreadyAuthed = false;
 
-    (function preCheckAuth() {
-      const todayStr = new Date().toISOString().split('T')[0];
-      const localAuthDate = localStorage.getItem("last_auth_date");
-      const localStadium = localStorage.getItem("user_stadium");
-
-      if (localAuthDate === todayStr && localStadium) {
-        isAlreadyAuthed = true;
-        selectedStadium = localStadium;
-      }
-    })();
-
+    // 웹페이지 시작점
     window.addEventListener("DOMContentLoaded", async () => {
+      // 숫자만 전송 가능하도록 전화번호 입력창 필터링 설정
       document.getElementById("user-phone").addEventListener("input", (e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
       });
 
+      // 1단계: 백엔드(GAS)에서 데이터(매장DB + Top3 구단) 미리 가져오기
       await fetchInitialData();
 
-      if (isAlreadyAuthed) {
-        showMainView();
-      } else {
-        document.getElementById("view-welcome").classList.remove("hidden");
-        if (localStorage.getItem("user_team")) document.getElementById("user-team").value = localStorage.getItem("user_team");
-        if (localStorage.getItem("user_stadium")) document.getElementById("user-stadium").value = localStorage.getItem("user_stadium");
-        if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
-        if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
-      }
+      // 2단계: 중복 참여 방지 (오늘 이미 인증했는지 확인)
+      checkDuplicateAuth();
+    });
 
-      document.getElementById("btn-go-welcome").addEventListener("click", () => {
-        // 1. 오늘 인증된 기록을 삭제하여 웰컴 페이지가 다시 작동하도록 설정
-        localStorage.removeItem("last_auth_date");
-      
-        // 2. 메인 화면 숨기고 웰컴 화면 보여주기
-        document.getElementById("view-main").classList.add("hidden");
-        document.getElementById("view-welcome").classList.remove("hidden");
-      
-        // 3. 웰컴 폼에 기존에 입력했던 정보가 그대로 남아있게 처리 (유저가 구장만 바꿀 수 있도록)
-        if (localStorage.getItem("user_team")) document.getElementById("user-team").value = localStorage.getItem("user_team");
-        if (localStorage.getItem("user_stadium")) document.getElementById("user-stadium").value = localStorage.getItem("user_stadium");
-        if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
-        if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
-      });
-
+    // 백엔드로부터 최초 데이터 받아오기 기능
     async function fetchInitialData() {
       try {
         const response = await fetch(GAS_WEB_APP_URL);
         const data = await response.json();
+        
         if (data.status === "success") {
           allStores = data.stores;
           renderTopTeams(data.topTeams);
         } else {
-          console.error("데이터 세부 로드 실패:", data.message);
+          alert("데이터를 가져오는 데 실패했습니다: " + data.message);
         }
       } catch (err) {
-        console.error("네트워크 연동 실패:", err);
+        console.error(err);
+        alert("네트워크 연결 상태를 확인해 주세요.");
       } finally {
+        // 초기 화면 로더 숨기기
         document.getElementById("init-loader").classList.add("hidden");
       }
     }
 
+    // 최다 이용 구단 순위표 그리기
     function renderTopTeams(teams) {
       const container = document.getElementById("top-teams-list");
       if (!teams || teams.length === 0) {
         container.innerHTML = `<p class="text-xs text-slate-400 text-center py-2">첫 번째 그린 환경 타자가 되어보세요! ⚾</p>`;
         return;
       }
+      
       const medals = ["🏆", "🥈", "🥉"];
       container.innerHTML = teams.map((t, idx) => `
         <div class="flex justify-between items-center text-sm bg-slate-900/50 px-3 py-2 rounded-xl border border-slate-800/50">
@@ -285,85 +244,126 @@
       `).join('');
     }
 
+    // 중복 참여 체크 로직
+    function checkDuplicateAuth() {
+      const todayStr = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+      const localAuthDate = localStorage.getItem("last_auth_date");
+      const localStadium = localStorage.getItem("user_stadium");
+
+      if (localAuthDate === todayStr && localStadium) {
+        // 오늘 이미 이용 기록이 있다면 곧바로 메인 화면으로 순간 이동
+        selectedStadium = localStadium;
+        showMainView();
+      } else {
+        // 처음이거나 날짜가 지났다면 웰컴 폼 오픈
+        document.getElementById("view-welcome").classList.remove("hidden");
+        
+        // 지난번에 방문했던 기록 복원 기능 추가 (기억하기)
+        if (localStorage.getItem("user_team")) document.getElementById("user-team").value = localStorage.getItem("user_team");
+        if (localStorage.getItem("user_stadium")) document.getElementById("user-stadium").value = localStorage.getItem("user_stadium");
+        if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
+        if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
+      }
+    }
+
+    // 웰컴 폼 제출 이벤트 처리 (이용내역 저장 및 스피너 대체 로직)
     document.getElementById("welcome-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       
       const btn = document.getElementById("btn-submit-welcome");
+      const btnText = document.getElementById("btn-text-welcome");
+      
+      // 버튼 클릭 차단 및 대기 문구 노출 (스피너 제거)
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i> 정보를 실시간 반영 중...`;
+      btnText.innerText = "잠시만 기다려 주세요...";
 
       const team = document.getElementById("user-team").value;
       const stadium = document.getElementById("user-stadium").value;
       const name = document.getElementById("user-name").value;
       let phone = document.getElementById("user-phone").value;
 
+      // 💡 [핵심 해결책] 구글 시트가 010의 맨 앞 '0'을 숫자로 지워버리는 걸 막기 위해
+      // 문자 데이터 앞에 강제로 작은따옴표(')를 추가하여 전송합니다.
       if (phone) {
         phone = "'" + phone;
       }
 
-      const payload = { action: "auth", team, stadium, name, phone };
+      const payload = {
+        action: "auth",
+        team,
+        stadium,
+        name,
+        phone
+      };
 
       try {
         const response = await fetch(GAS_WEB_APP_URL, {
           method: "POST",
           body: JSON.stringify(payload)
         });
-        await response.json();
+        const result = await response.json();
 
-        const todayStr = new Date().toISOString().split('T')[0];
-        localStorage.setItem("last_auth_date", todayStr);
-        localStorage.setItem("user_stadium", stadium);
-        localStorage.setItem("user_team", team);
-        if (name) localStorage.setItem("user_name", name);
-        if (phone) localStorage.setItem("user_phone", phone.replace("'", ""));
+        if (result.status === "success") {
+          // 성공 시 정보를 로컬 스토리지에 기억
+          const todayStr = new Date().toISOString().split('T')[0];
+          localStorage.setItem("last_auth_date", todayStr);
+          localStorage.setItem("user_team", team);
+          localStorage.setItem("user_stadium", stadium);
+          if (name) localStorage.setItem("user_name", name);
+          if (phone) localStorage.setItem("user_phone", phone.replace("'", "")); 
 
-        selectedStadium = stadium;
-        showMainView();
+          selectedStadium = stadium;
+          showMainView();
+        } else {
+          alert("인증 처리 중 오류가 발생했습니다. 지도로 바로 이동합니다.");
+          selectedStadium = stadium;
+          showMainView();
+        }
       } catch (err) {
         console.error(err);
+        // 네트워크 타임아웃/보안 정책 등으로 무한로딩에 빠지지 않도록 에러가 발생해도 지도는 볼 수 있게 우회 전환
         selectedStadium = stadium;
         showMainView();
       } finally {
+        // 원래 상태 복구
         btn.disabled = false;
-        btn.innerHTML = `<span>용기내 매장 보기</span>`;
+        btnText.innerText = "다회용기 매장 지도 보기";
       }
     });
 
+    // 메인 리스트 뷰 전환 및 검색 바인딩
     function showMainView() {
       document.getElementById("view-welcome").classList.add("hidden");
       document.getElementById("view-main").classList.remove("hidden");
       document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
       
+      // 이벤트 리스너 등록
       document.getElementById("search-input").addEventListener("input", renderStoreList);
       document.getElementById("filter-floor").addEventListener("change", renderStoreList);
       document.getElementById("filter-zone").addEventListener("change", renderStoreList);
-      document.getElementById("filter-container-type").addEventListener("change", renderStoreList);
       
       renderStoreList();
     }
 
+    // 구장 변경 버튼 클릭 시 초기화
+    document.getElementById("btn-change-stadium").addEventListener("click", () => {
+      localStorage.removeItem("last_auth_date"); // 하루 강제 해제 후 다시 웰컴 폼으로
+      location.reload();
+    });
+
+    // 메인 매장 목록 그리기 필터 시스템 (구글 시트의 정확한 헤더 이름 반영 버전)
     function renderStoreList() {
       const container = document.getElementById("store-list-container");
       const searchKeyword = document.getElementById("search-input").value.toLowerCase();
       const floorFilter = document.getElementById("filter-floor").value;
       const zoneFilter = document.getElementById("filter-zone").value;
-      const containerFilter = document.getElementById("filter-container-type").value;
 
+      // 구글 시트 원본 헤더 "야구장" 기준으로 매칭
       let filtered = allStores.filter(s => s["야구장"] === selectedStadium);
 
+      // 조건 필터링 시작
       if (floorFilter) filtered = filtered.filter(s => String(s["층수"]).includes(floorFilter));
       if (zoneFilter) filtered = filtered.filter(s => String(s["구역"]).includes(zoneFilter));
-      
-      if (containerFilter) {
-        if (containerFilter === "cup") {
-          filtered = filtered.filter(s => s["다회용컵 사용 여부"] === "사용");
-        } else if (containerFilter === "dish") {
-          filtered = filtered.filter(s => s["다회용그릇 사용 여부"] === "사용");
-        } else if (containerFilter === "self") {
-          filtered = filtered.filter(s => s["개인용기 사용 가능 여부"] === "가능");
-        }
-      }
-
       if (searchKeyword) {
         filtered = filtered.filter(s => 
           String(s["매장명"]).toLowerCase().includes(searchKeyword) || 
@@ -381,6 +381,7 @@
       }
 
       container.innerHTML = filtered.map(s => {
+        // 배지 구글 시트 컬럼 기준 바인딩
         const cupBadge = s["다회용컵 사용 여부"] === "사용" ? `<span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🥤 다회용컵</span>` : '';
         const dishBadge = s["다회용그릇 사용 여부"] === "사용" ? `<span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🍲 다회용그릇</span>` : '';
         const selfBadge = s["개인용기 사용 가능 여부"] === "가능" ? `<span class="bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🛍️ 개인용기 환영</span>` : '';
@@ -407,23 +408,28 @@
       }).join('');
     }
 
+    // 제보하기 모달 열기
     window.openReportModal = function(serialNum, storeName) {
       document.getElementById("modal-serial-number").value = serialNum;
       document.getElementById("modal-store-name").innerText = `${storeName} 관련 정보 제보`;
       document.getElementById("report-modal").classList.remove("hidden");
     }
 
+    // 제보하기 모달 닫기 및 리셋
     document.getElementById("btn-close-modal").addEventListener("click", closeModal);
     function closeModal() {
       document.getElementById("report-modal").classList.add("hidden");
       document.getElementById("report-form").reset();
     }
 
+    // 제보 폼 전송 및 대형 이미지 리사이징(압축) 프로세스
     document.getElementById("report-form").addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const btn = document.getElementById("btn-submit-report");
       const btnText = document.getElementById("btn-text-report");
       
+      // 버튼 비활성화 및 대기 텍스트 노출 (스피너 제거)
       btn.disabled = true;
       btnText.innerText = "잠시만 기다려 주세요...";
 
@@ -436,21 +442,30 @@
       let imageData = "";
       let imageName = "";
 
+      // 사진이 첨부된 경우 클라이언트 웹 사이트 내부에서 먼저 압축 가공 실행
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         imageName = file.name;
         try {
           imageData = await resizeAndConvertImage(file);
         } catch (err) {
-          console.error(err);
-          alert("이미지 압축 실패");
+          console.error("이미지 압축 오류:", err);
+          alert("이미지 처리 도중 에러가 났습니다. 사진 없이 제출하거나 다시 시도하세요.");
           btn.disabled = false;
           btnText.innerText = "제보 등록하기";
           return;
         }
       }
 
-      const payload = { action: "report", serialNumber, storeName, reportType, message, imageData, imageName };
+      const payload = {
+        action: "report",
+        serialNumber,
+        storeName,
+        reportType,
+        message,
+        imageData,
+        imageName
+      };
 
       try {
         const response = await fetch(GAS_WEB_APP_URL, {
@@ -458,14 +473,16 @@
           body: JSON.stringify(payload)
         });
         const result = await response.json();
+
         if (result.status === "success") {
-          alert("제보가 성공적으로 접수되었습니다! 🌱");
+          alert("제보가 성공적으로 접수되었습니다. 관리자 승인 후 지도에 반영됩니다. 감사합니다! 🌱");
           closeModal();
         } else {
           alert("제보 등록 실패: " + result.message);
         }
       } catch (err) {
         console.error(err);
+        // 제보 역시 네트워크 지연 등으로 에러 처리가 나더라도 유저에게 성공 알림을 주고 닫도록 예외 강화
         alert("제보 처리가 완료되었습니다. 관리자 확인 후 반영됩니다! 🌱");
         closeModal();
       } finally {
@@ -474,6 +491,7 @@
       }
     });
 
+    // 자바스크립트 캔버스를 이용한 가성비 최고의 이미지 압축 함수 (최대 가로 800px로 줄임)
     function resizeAndConvertImage(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -483,19 +501,30 @@
           img.src = event.target.result;
           img.onload = function () {
             const canvas = document.createElement("canvas");
-            const max_size = 800;
+            const max_size = 800; // 해상도 리사이즈 한계선
             let width = img.width;
             let height = img.height;
+
             if (width > height) {
-              if (width > max_size) { height *= max_size / width; width = max_size; }
+              if (width > max_size) {
+                height *= max_size / width;
+                width = max_size;
+              }
             } else {
-              if (height > max_size) { width *= max_size / height; height = max_size; }
+              if (height > max_size) {
+                width *= max_size / height;
+                height = max_size;
+              }
             }
             canvas.width = width;
             canvas.height = height;
+
             const ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL("image/jpeg", 0.7));
+            
+            // 퀄리티를 0.7(70%)로 압축하여 대용량 사진 업로드 에러 사전 방지
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+            resolve(dataUrl);
           };
         };
         reader.onerror = error => reject(error);
