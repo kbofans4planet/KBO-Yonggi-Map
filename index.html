@@ -8,512 +8,73 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     .neon-border { box-shadow: 0 0 10px rgba(34, 197, 94, 0.5); }
-    .neon-text { text-shadow: 0 0 8px rgba(34, 197, 94, 0.6); }
   </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
 
   <div id="init-loader" class="fixed inset-0 bg-slate-950 z-50 flex flex-col items-center justify-center">
     <i class="fa-solid fa-circle-notch fa-spin text-5xl text-green-400 mb-4"></i>
-    <p class="text-lg font-bold text-green-400">야구장 용기낼지도 불러오는 중...</p>
+    <p class="text-lg font-bold text-green-400">데이터 불러오는 중...</p>
   </div>
 
-  <div id="view-welcome" class="hidden max-w-md mx-auto px-4 py-8 flex flex-col min-h-screen justify-between">
-    <div>
-      <div class="text-center my-6">
-        <span class="text-xs font-semibold bg-green-500/20 text-green-400 px-3 py-1 rounded-full uppercase tracking-wider">야구장 환경 지킴이</span>
-        <h1 class="text-3xl font-black text-white mt-2 tracking-tight">야구장 <span class="text-green-400">용기낼지도</span></h1>
-        <p class="text-slate-400 text-sm mt-1">다회용기와 함께 더 깨끗한 야구 관람을!</p>
-      </div>
-
-      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 my-6 neon-border">
-        <h3 class="text-xs font-bold text-green-400 uppercase tracking-widest mb-3 flex items-center">
-          <i class="fa-solid fa-ranking-star mr-1.5"></i> 야구장 용기낼지도 방문 TOP 3 
-        </h3>
-        <div id="top-teams-list" class="space-y-2.5">
-          <div class="animate-pulse flex justify-between items-center bg-slate-900/50 px-3 py-2.5 rounded-xl border border-slate-800/50">
-            <div class="h-4 bg-slate-800 rounded w-1/3"></div>
-            <div class="h-4 bg-slate-800 rounded w-14"></div>
-          </div>
-          <div class="animate-pulse flex justify-between items-center bg-slate-900/50 px-3 py-2.5 rounded-xl border border-slate-800/50">
-            <div class="h-4 bg-slate-800 rounded w-1/4"></div>
-            <div class="h-4 bg-slate-800 rounded w-14"></div>
-          </div>
-          <div class="animate-pulse flex justify-between items-center bg-slate-900/50 px-3 py-2.5 rounded-xl border border-slate-800/50">
-            <div class="h-4 bg-slate-800 rounded w-1/3"></div>
-            <div class="h-4 bg-slate-800 rounded w-14"></div>
-          </div>
-        </div>
-      </div>
-
-      <form id="welcome-form" class="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
-        <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">응원팀 선택 <span class="text-red-400">*</span></label>
-          <select id="user-team" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-green-400">
-            <option value="">응원 구단을 선택해 주세요</option>
-            <option value="LG 트윈스">LG 트윈스</option>
-            <option value="KT 위즈">KT 위즈</option>
-            <option value="SSG 랜더스">SSG 랜더스</option>
-            <option value="NC 다이노스">NC 다이노스</option>
-            <option value="두산 베어스">두산 베어스</option>
-            <option value="KIA 타이거즈">KIA 타이거즈</option>
-            <option value="롯데 자이언츠">롯데 자이언츠</option>
-            <option value="삼성 라이온즈">삼성 라이온즈</option>
-            <option value="한화 이글스">한화 이글스</option>
-            <option value="키움 히어로즈">키움 히어로즈</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">방문 구장 선택 <span class="text-red-400">*</span></label>
-          <select id="user-stadium" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-green-400">
-            <option value="">방문하신 야구장을 골라주세요</option>
-            <option value="잠실야구장">잠실야구장</option>
-            <option value="사직야구장">사직야구장</option>
-            <option value="광주-기아챔피언스필드">광주-기아챔피언스필드</option>
-            <option value="대구삼성라이온즈파크">대구삼성라이온즈파크</option>
-            <option value="창원NC파크">창원NC파크</option>
-            <option value="수원KT위즈파크">수원KT위즈파크</option>
-            <option value="인천SSG랜더스필드">인천SSG랜더스필드</option>
-            <option value="대전한화생명이글스파크">대전한화생명이글스파크</option>
-            <option value="고척스카이돔">고척스카이돔</option>
-          </select>
-        </div>
-
-        <div class="pt-2 border-t border-slate-700/50 mt-4">
-          <p class="text-[11px] text-green-400 font-medium mb-2">🎁 성명/연락처 입력 시 경품 이벤트에 자동 응모됩니다!</p>
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <input type="text" id="user-name" placeholder="이름 (선택)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-green-400">
-            </div>
-            <div>
-              <input type="tel" id="user-phone" placeholder="전화번호 (숫자만)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-green-400">
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" id="btn-submit-welcome" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-bold rounded-xl py-3 text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 mt-4 cursor-pointer">
-          <span id="btn-text-welcome">용기내 매장 보기</span>
-        </button>
-      </form>
+  <div id="view-welcome" class="hidden max-w-md mx-auto px-4 py-8">
+    <div class="text-center my-6">
+      <h1 class="text-3xl font-black text-white">야구장 <span class="text-green-400">용기낼지도</span></h1>
     </div>
-
-    <div class="text-center text-[11px] text-slate-500 mt-8">
-      이름 및 전화번호 입력 시 개인정보 수집 및 이용(설문 및 경품 지급 목적)에 동의한 것으로 간주합니다.
-    </div>
+    <form id="welcome-form" class="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
+      <select id="user-stadium" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white">
+        <option value="">방문 구장을 선택하세요</option>
+        <option value="잠실야구장">잠실야구장</option>
+        <option value="사직야구장">사직야구장</option>
+        <option value="광주-기아챔피언스필드">광주-기아챔피언스필드</option>
+      </select>
+      <button type="submit" class="w-full bg-green-500 text-slate-950 font-bold rounded-xl py-3">매장 보기</button>
+    </form>
   </div>
 
   <div id="view-main" class="hidden max-w-md mx-auto px-4 py-6">
-    <div class="flex justify-between items-center mb-4">
-      <h2 id="current-stadium-title" class="text-xl font-black text-white flex items-center gap-1.5">
-        <i class="fa-solid fa-location-dot text-green-400"></i> 야구장
-      </h2>
-      
-      <div>
-        <button id="btn-go-welcome" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-700 hover:text-green-400 transition-colors cursor-pointer">
-          <i class="fa-solid fa-rotate-left mr-1"></i> 처음 화면으로
-        </button>
-      </div>
-    </div>
-
-    <div class="sticky top-0 bg-slate-900 pt-1 pb-4 z-10 space-y-2">
-      <div class="relative">
-        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-        <input type="text" id="search-input" placeholder="매장 이름이나 메뉴 검색 (예: 떡볶이)" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-green-400">
-      </div>
-
-      <div class="grid grid-cols-2 gap-2">
-        <select id="filter-floor" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
-          <option value="">모든 층수</option>
-          <option value="1층">1층</option>
-          <option value="2층">2층</option>
-          <option value="3층">3층</option>
-          <option value="4층">4층</option>
-          <option value="외야">외야</option>
-        </select>
-        <select id="filter-zone" class="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
-          <option value="">모든 구역</option>
-          <option value="1루">1루</option>
-          <option value="3루">3루</option>
-          <option value="중앙">중앙</option>
-          <option value="외야">외야</option>
-          <option value="외부">외부</option>
-        </select>
-      </div>
-      <div>
-        <select id="filter-container-type" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-green-400">
-          <option value="">모든 용기 유형 (전체보기)</option>
-          <option value="cup">🥤 다회용컵 사용 매장</option>
-          <option value="dish">🍲 다회용그릇 사용 매장</option>
-          <option value="self">🛍️ 개인용기 환영 매장</option>
-        </select>
-      </div>
-    </div>
-
+    <h2 id="current-stadium-title" class="text-xl font-black text-white mb-4"></h2>
     <div id="store-list-container" class="space-y-3.5"></div>
   </div>
 
-  <div id="report-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
-    <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
-      <div class="flex justify-between items-start">
-        <div>
-          <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-pen-to-square text-green-400"></i> 정보 제보 / 수정 요청
-          </h3>
-          <p id="modal-store-name" class="text-xs text-slate-400 mt-0.5 font-medium">매장 정보 업데이트</p>
-        </div>
-        <button id="btn-close-modal" class="text-slate-400 hover:text-white text-lg p-1 cursor-pointer">&times;</button>
-      </div>
-
-      <form id="report-form" class="space-y-3.5">
-        <input type="hidden" id="modal-serial-number">
-
-        <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">제보 종류 선택</label>
-          <div class="grid grid-cols-2 gap-2">
-            <label class="flex items-center gap-2 bg-slate-950 border border-slate-700 px-3 py-2.5 rounded-xl text-xs text-slate-300 cursor-pointer">
-              <input type="radio" name="report-type" value="개인용기" checked class="accent-green-400">
-              <span>개인용기 꿀팁</span>
-            </label>
-            <label class="flex items-center gap-2 bg-slate-950 border border-slate-700 px-3 py-2.5 rounded-xl text-xs text-slate-300 cursor-pointer">
-              <input type="radio" name="report-type" value="매장 변경" class="accent-green-400">
-              <span>매장 변경/오류</span>
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">제보 내용</label>
-          <textarea id="report-message" required rows="3" placeholder="예: 이 매장 개인용기 가져가면 만두 한 알 더 주시네요! / 폐점되고 다른 가게 생겼어요." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-green-400 resize-none"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">사진 첨부 (선택)</label>
-          <input type="file" id="report-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-500/10 file:text-green-400 hover:file:bg-green-500/20 file:cursor-pointer">
-          <p class="text-[10px] text-slate-500 mt-1">※ 현장 확인용 사진을 첨부해 주시면 신속히 검토됩니다.</p>
-        </div>
-
-        <button type="submit" id="btn-submit-report" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-bold rounded-xl py-3 text-xs transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-green-500/20 cursor-pointer">
-          <span id="btn-text-report">제보 등록하기</span>
-        </button>
-      </form>
-    </div>
-  </div>
-
   <script>
+    // 본인의 GAS 웹앱 주소로 교체하세요
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjJQR0JCRrGIBEUY-Mj6Y0ipoeGclubZ6hSZpsRbXwM_rgGs0W_5bj0OqtDMx2aTs19g/exec";
-
     let allStores = [];
-    let selectedStadium = "";
-    let isAlreadyAuthed = false;
-
-    (function preCheckAuth() {
-      const todayStr = new Date().toISOString().split('T')[0];
-      const localAuthDate = localStorage.getItem("last_auth_date");
-      const localStadium = localStorage.getItem("user_stadium");
-
-      if (localAuthDate === todayStr && localStadium) {
-        isAlreadyAuthed = true;
-        selectedStadium = localStadium;
-      }
-    })();
 
     window.addEventListener("DOMContentLoaded", async () => {
-      document.getElementById("user-phone").addEventListener("input", (e) => {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
-      });
-
       await fetchInitialData();
-
-      if (isAlreadyAuthed) {
-        showMainView();
-      } else {
-        document.getElementById("view-welcome").classList.remove("hidden");
-        if (localStorage.getItem("user_team")) document.getElementById("user-team").value = localStorage.getItem("user_team");
-        if (localStorage.getItem("user_stadium")) document.getElementById("user-stadium").value = localStorage.getItem("user_stadium");
-        if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
-        if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
-      }
-
-      document.getElementById("btn-go-welcome").addEventListener("click", () => {
-
-        // 2. 메인 화면 숨기고 웰컴 화면 보여주기
-        document.getElementById("view-main").classList.add("hidden");
-        document.getElementById("view-welcome").classList.remove("hidden");
-      
-        // 3. 웰컴 폼에 기존에 입력했던 정보가 그대로 남아있게 처리 (유저가 구장만 바꿀 수 있도록)
-        if (localStorage.getItem("user_team")) document.getElementById("user-team").value = localStorage.getItem("user_team");
-        if (localStorage.getItem("user_stadium")) document.getElementById("user-stadium").value = localStorage.getItem("user_stadium");
-        if (localStorage.getItem("user_name")) document.getElementById("user-name").value = localStorage.getItem("user_name");
-        if (localStorage.getItem("user_phone")) document.getElementById("user-phone").value = localStorage.getItem("user_phone");
+      document.getElementById("welcome-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        showMainView(document.getElementById("user-stadium").value);
       });
+    });
 
     async function fetchInitialData() {
       try {
         const response = await fetch(GAS_WEB_APP_URL);
-        
-        // 1. 응답 상태를 먼저 확인
-        if (!response.ok) {
-          console.error("서버 응답 오류:", response.status);
-          return;
-        }
-        
-        // 2. 텍스트로 먼저 받아서 콘솔에 찍어보기 (문제가 어디서 발생하는지 확인)
-        const textData = await response.text();
-        console.log("받아온 데이터:", textData); // 여기서 데이터가 잘 찍히는지 F12 콘솔에서 확인
-        
-        const data = JSON.parse(textData); // 여기서 에러가 나면 데이터 형식이 잘못된 것
-        
+        const data = await response.json();
         if (data.status === "success") {
           allStores = data.stores;
-          renderTopTeams(data.topTeams);
-        } else {
-          console.error("데이터 로드 실패:", data.message);
         }
-      } catch (err) {
-        console.error("네트워크 연동 실패:", err);
-      } finally {
-        document.getElementById("init-loader").classList.add("hidden");
-      }
+      } catch (err) { console.error("데이터 로드 실패:", err); }
+      finally { document.getElementById("init-loader").classList.add("hidden"); }
     }
 
-    function renderTopTeams(teams) {
-      const container = document.getElementById("top-teams-list");
-      if (!teams || teams.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-400 text-center py-2">첫 번째 그린 환경 타자가 되어보세요! ⚾</p>`;
-        return;
-      }
-      const medals = ["🏆", "🥈", "🥉"];
-      container.innerHTML = teams.map((t, idx) => `
-        <div class="flex justify-between items-center text-sm bg-slate-900/50 px-3 py-2 rounded-xl border border-slate-800/50">
-          <div class="flex items-center gap-2">
-            <span class="text-xs">${medals[idx] || idx + 1}</span>
-            <span class="font-bold text-white">${t.team}</span>
-          </div>
-          <span class="text-xs text-green-400 font-semibold bg-green-400/10 px-2 py-0.5 rounded-full">${t.count}회 참여</span>
-        </div>
-      `).join('');
-    }
-
-    document.getElementById("welcome-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      
-      const btn = document.getElementById("btn-submit-welcome");
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i> 정보를 실시간 반영 중...`;
-
-      const team = document.getElementById("user-team").value;
-      const stadium = document.getElementById("user-stadium").value;
-      const name = document.getElementById("user-name").value;
-      let phone = document.getElementById("user-phone").value;
-
-      if (phone) {
-        phone = "'" + phone;
-      }
-
-      const payload = { action: "auth", team, stadium, name, phone };
-
-      try {
-        const response = await fetch(GAS_WEB_APP_URL, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-        await response.json();
-
-        const todayStr = new Date().toISOString().split('T')[0];
-        localStorage.setItem("last_auth_date", todayStr);
-        localStorage.setItem("user_stadium", stadium);
-        localStorage.setItem("user_team", team);
-        if (name) localStorage.setItem("user_name", name);
-        if (phone) localStorage.setItem("user_phone", phone.replace("'", ""));
-
-        selectedStadium = stadium;
-        showMainView();
-      } catch (err) {
-        console.error(err);
-        selectedStadium = stadium;
-        showMainView();
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span>용기내 매장 보기</span>`;
-      }
-    });
-
-    function showMainView() {
+    function showMainView(stadium) {
       document.getElementById("view-welcome").classList.add("hidden");
       document.getElementById("view-main").classList.remove("hidden");
-      document.getElementById("current-stadium-title").innerHTML = `<i class="fa-solid fa-location-dot text-green-400"></i> ${selectedStadium}`;
+      document.getElementById("current-stadium-title").innerText = stadium;
       
-      document.getElementById("search-input").addEventListener("input", renderStoreList);
-      document.getElementById("filter-floor").addEventListener("change", renderStoreList);
-      document.getElementById("filter-zone").addEventListener("change", renderStoreList);
-      document.getElementById("filter-container-type").addEventListener("change", renderStoreList);
-      
-      renderStoreList();
-    }
-
-    function renderStoreList() {
       const container = document.getElementById("store-list-container");
-      const searchKeyword = document.getElementById("search-input").value.toLowerCase();
-      const floorFilter = document.getElementById("filter-floor").value;
-      const zoneFilter = document.getElementById("filter-zone").value;
-      const containerFilter = document.getElementById("filter-container-type").value;
-
-      let filtered = allStores.filter(s => s["야구장"] === selectedStadium);
-
-      if (floorFilter) filtered = filtered.filter(s => String(s["층수"]).includes(floorFilter));
-      if (zoneFilter) filtered = filtered.filter(s => String(s["구역"]).includes(zoneFilter));
+      const filtered = allStores.filter(s => s["야구장"] === stadium);
       
-      if (containerFilter) {
-        if (containerFilter === "cup") {
-          filtered = filtered.filter(s => s["다회용컵 사용 여부"] === "사용");
-        } else if (containerFilter === "dish") {
-          filtered = filtered.filter(s => s["다회용그릇 사용 여부"] === "사용");
-        } else if (containerFilter === "self") {
-          filtered = filtered.filter(s => s["개인용기 사용 가능 여부"] === "가능");
-        }
-      }
-
-      if (searchKeyword) {
-        filtered = filtered.filter(s => 
-          String(s["매장명"]).toLowerCase().includes(searchKeyword) || 
-          String(s["주요 메뉴"]).toLowerCase().includes(searchKeyword)
-        );
-      }
-
-      if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="text-center py-12 text-slate-500 bg-slate-850 rounded-2xl border border-dashed border-slate-800">
-            <i class="fa-solid fa-store-slash text-3xl mb-3"></i>
-            <p class="text-xs">조건에 맞는 다회용기 매장이 없습니다.</p>
-          </div>`;
-        return;
-      }
-
-      container.innerHTML = filtered.map(s => {
-        const cupBadge = s["다회용컵 사용 여부"] === "사용" ? `<span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🥤 다회용컵</span>` : '';
-        const dishBadge = s["다회용그릇 사용 여부"] === "사용" ? `<span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🍲 다회용그릇</span>` : '';
-        const selfBadge = s["개인용기 사용 가능 여부"] === "가능" ? `<span class="bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] px-1.5 py-0.5 rounded-md font-medium">🛍️ 개인용기 환영</span>` : '';
-        
-        return `
-          <div class="bg-slate-850 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between hover:border-slate-700 transition-colors">
-            <div>
-              <span class="text-[10px] font-bold text-slate-400 bg-slate-950 px-2 py-0.5 rounded-md">
-                📍 ${s["층수"]} | ${s["구역"]} (${s["인근 블록"]})
-              </span>
-              <h4 class="text-base font-bold text-white mt-1.5">${s["매장명"]}</h4>
-              <p class="text-xs text-slate-400 mt-1"><span class="text-slate-500 font-medium">메뉴:</span> ${s["주요 메뉴"]}</p>
-              <div class="flex flex-wrap gap-1 mt-3">
-                ${cupBadge} ${dishBadge} ${selfBadge}
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-end">
-              <button onclick="openReportModal('${s["매장일련번호"]}', '${s["매장명"]}')" class="text-[11px] font-medium text-slate-400 hover:text-green-400 bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-800 hover:border-green-500/30 transition-all cursor-pointer">
-                <i class="fa-solid fa-pen mr-1"></i> 제보하기
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    window.openReportModal = function(serialNum, storeName) {
-      document.getElementById("modal-serial-number").value = serialNum;
-      document.getElementById("modal-store-name").innerText = `${storeName} 관련 정보 제보`;
-      document.getElementById("report-modal").classList.remove("hidden");
-    }
-
-    document.getElementById("btn-close-modal").addEventListener("click", closeModal);
-    function closeModal() {
-      document.getElementById("report-modal").classList.add("hidden");
-      document.getElementById("report-form").reset();
-    }
-
-    document.getElementById("report-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById("btn-submit-report");
-      const btnText = document.getElementById("btn-text-report");
-      
-      btn.disabled = true;
-      btnText.innerText = "잠시만 기다려 주세요...";
-
-      const serialNumber = document.getElementById("modal-serial-number").value;
-      const storeName = document.getElementById("modal-store-name").innerText.replace(" 관련 정보 제보", "");
-      const reportType = document.querySelector('input[name="report-type"]:checked').value;
-      const message = document.getElementById("report-message").value;
-      const fileInput = document.getElementById("report-file");
-
-      let imageData = "";
-      let imageName = "";
-
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        imageName = file.name;
-        try {
-          imageData = await resizeAndConvertImage(file);
-        } catch (err) {
-          console.error(err);
-          alert("이미지 압축 실패");
-          btn.disabled = false;
-          btnText.innerText = "제보 등록하기";
-          return;
-        }
-      }
-
-      const payload = { action: "report", serialNumber, storeName, reportType, message, imageData, imageName };
-
-      try {
-        const response = await fetch(GAS_WEB_APP_URL, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-        if (result.status === "success") {
-          alert("제보가 성공적으로 접수되었습니다! 🌱");
-          closeModal();
-        } else {
-          alert("제보 등록 실패: " + result.message);
-        }
-      } catch (err) {
-        console.error(err);
-        alert("제보 처리가 완료되었습니다. 관리자 확인 후 반영됩니다! 🌱");
-        closeModal();
-      } finally {
-        btn.disabled = false;
-        btnText.innerText = "제보 등록하기";
-      }
-    });
-
-    <script>
-    // ... 위쪽 코드 동일 ...
-    
-    // 맨 마지막 함수 부분만 확실하게 다시 복사해 보세요
-    function resizeAndConvertImage(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function (event) {
-          const img = new Image();
-          img.src = event.target.result;
-          img.onload = function () {
-            const canvas = document.createElement("canvas");
-            const max_size = 800;
-            let width = img.width;
-            let height = img.height;
-            if (width > height) {
-              if (width > max_size) { height *= max_size / width; width = max_size; }
-            } else {
-              if (height > max_size) { width *= max_size / height; height = max_size; }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL("image/jpeg", 0.7));
-          };
-        };
-        reader.onerror = error => reject(error);
-      });
+      container.innerHTML = filtered.map(s => `
+        <div class="bg-slate-850 p-4 rounded-2xl border border-slate-800">
+          <h4 class="text-base font-bold text-white">${s["매장명"]}</h4>
+          <p class="text-xs text-slate-400">메뉴: ${s["주요 메뉴"] || '정보 없음'}</p>
+        </div>
+      `).join('');
     }
   </script>
 </body>
