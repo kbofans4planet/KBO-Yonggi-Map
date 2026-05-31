@@ -41,48 +41,45 @@
           <!-- 팀 데이터가 가로로 렌더링됩니다 -->
         </div>
       </div>
-      <form id="welcome-form" class="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
-        <div class="flex items-center gap-3">
-          <label class="w-20 text-sm font-bold text-slate-400 shrink-0">응원팀</label>
-          <div class="relative flex-1 w-full">
-              <select id="user-team" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white appearance-none pr-10">
-                  <option value="">응원팀을 선택해주세요</option>
-                  <option value="KIA 타이거즈">KIA 타이거즈</option>
-                  <option value="KT 위즈">KT 위즈</option>
-                  <option value="LG 트윈스">LG 트윈스</option>
-                  <option value="NC 다이노스">NC 다이노스</option>
-                  <option value="SSG 랜더스">SSG 랜더스</option>
-                  <option value="두산 베어스">두산 베어스</option>
-                  <option value="롯데 자이언츠">롯데 자이언츠</option>
-                  <option value="삼성 라이온즈">삼성 라이온즈</option>
-                  <option value="키움 히어로즈">키움 히어로즈</option>
-                  <option value="한화 이글스">한화 이글스</option>
-                  </select>
-            <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-            <label class="w-20 text-sm font-bold text-slate-400 shrink-0">야구장</label>
-            <div class="relative flex-1 w-full">
-                <select id="user-stadium" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white appearance-none pr-10">
-                      <option value="">야구장을 선택해주세요</option>
-                      <option value="고척스카이돔">고척스카이돔</option>
-                      <option value="광주KIA챔피언스필드">광주KIA챔피언스필드</option>
-                      <option value="대구삼성라이온즈파크">대구삼성라이온즈파크</option>
-                      <option value="대전한화생명이글스파크">대전한화생명이글스파크</option>
-                      <option value="사직야구장">사직야구장</option>
-                      <option value="수원KT위즈파크">수원KT위즈파크</option>
-                      <option value="인천SSG랜더스필드">인천SSG랜더스필드</option>
-                      <option value="잠실야구장">잠실야구장</option>
-                      <option value="창원NC파크">창원NC파크</option>
-                      </select>
-                    <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+      <form id="welcome-form" class="space-y-3 bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
+        <div class="flex gap-2">
+            <div class="relative flex-1">
+                <select id="user-team" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white appearance-none">
+                    <option value="" disabled selected>응원팀 선택</option>
+                    <option value="KIA 타이거즈">KIA 타이거즈</option>
+                    <option value="KT 위즈">KT 위즈</option>
+                    <option value="LG 트윈스">LG 트윈스</option>
+                    <option value="NC 다이노스">NC 다이노스</option>
+                    <option value="SSG 랜더스">SSG 랜더스</option>
+                    <option value="두산 베어스">두산 베어스</option>
+                    <option value="롯데 자이언츠">롯데 자이언츠</option>
+                    <option value="삼성 라이온즈">삼성 라이온즈</option>
+                    <option value="키움 히어로즈">키움 히어로즈</option>
+                    <option value="한화 이글스">한화 이글스</option>
+                </select>
+                <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none"></i>
             </div>
-        </div>
+    
+            <div class="relative flex-1">
+                <select id="user-stadium" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white appearance-none">
+                    <option value="" disabled selected>야구장 선택</option>
+                    <option value="고척스카이돔">고척스카이돔</option>
+                    <option value="광주KIA챔피언스필드">광주KIA챔피언스필드</option>
+                    <option value="대구삼성라이온즈파크">대구삼성라이온즈파크</option>
+                    <option value="대전한화생명이글스파크">대전한화생명이글스파크</option>
+                    <option value="사직야구장">사직야구장</option>
+                    <option value="수원KT위즈파크">수원KT위즈파크</option>
+                    <option value="인천SSG랜더스필드">인천SSG랜더스필드</option>
+                    <option value="잠실야구장">잠실야구장</option>
+                    <option value="창원NC파크">창원NC파크</option>
+                </select>
+                <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none"></i>
+            </div>
+        </div> 
        <!-- 왼쪽 시작선과 오른쪽 끝선을 맞추기 위한 컨테이너 -->
         <div class="mt-4 w-full">
           <button type="button" id="toggle-survey" class="flex items-center w-full text-sm font-bold text-green-400 border border-green-500/30 bg-green-500/5 px-4 py-3 rounded-xl cursor-pointer">
-              <span class="flex-1 text-center">설문/이벤트 참여하기 (선택)</span>
+              <span class="flex-1 text-center">설문 이벤트 참여 신청 (선택)</span>
               <i id="toggle-icon" class="fa-solid fa-chevron-down text-xs"></i>
           </button>
           
