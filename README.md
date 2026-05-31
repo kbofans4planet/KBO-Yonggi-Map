@@ -1,1 +1,1 @@
-# KBO-Yonggi-Map
+# KBO-BraveMap
